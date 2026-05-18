@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { UNITS } from '../data/curriculum.js';
 import { sounds } from '../utils/sounds.js';
 
@@ -22,6 +23,7 @@ export default function LessonLearn() {
   const lesson  = unit?.lessons.find(l => l.id === lid);
   const missions = lesson?.learnMissions || [];
 
+  const { t } = useTranslation();
   const color      = UNIT_COLORS[uid] || '#58CC02';
   const darkColor  = UNIT_DARK[uid]   || '#1a4000';
   const enemyPool  = ENEMY_POOL[uid]  || ['👾'];
@@ -66,10 +68,10 @@ export default function LessonLearn() {
   const progress = (missionIdx / missions.length) * 100;
 
   const MISSION_META = {
-    concept:     { label: '📖 INTEL BRIEFING',   sub: 'Study the codex'   },
-    tap_correct: { label: '⚡ QUICK DRAW',        sub: 'Tap the right answer' },
-    match:       { label: '🔗 COMBO LINK',        sub: 'Match all pairs'   },
-    arrange:     { label: '📦 BUILD SEQUENCE',    sub: 'Order the code'    },
+    concept:     { label: t('learn.types.concept'),    sub: t('learn.types.conceptSub') },
+    tap_correct: { label: t('learn.types.tap_correct'), sub: t('learn.types.tapSub')    },
+    match:       { label: t('learn.types.match'),      sub: t('learn.types.matchSub')   },
+    arrange:     { label: t('learn.types.arrange'),    sub: t('learn.types.arrangeSub') },
   };
   const meta = MISSION_META[currentMission?.type] || { label: '⚡ MISSION', sub: '' };
 
@@ -126,7 +128,7 @@ export default function LessonLearn() {
               fontFamily: "'Press Start 2P', monospace", fontSize: 7,
               color: color, letterSpacing: 1.5,
               textShadow: `0 0 10px ${color}`,
-            }}>PRE-BATTLE TRAINING</div>
+            }}>{t('learn.header')}</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, marginTop: 2 }}>
               {lesson.icon} {lesson.title}
             </div>
@@ -187,11 +189,11 @@ export default function LessonLearn() {
         transition: 'opacity 0.25s ease, transform 0.25s ease',
       }}>
         {done ? (
-          <AllDoneScreen uid={uid} lid={lid} lesson={lesson} color={color} navigate={navigate} />
+          <AllDoneScreen uid={uid} lid={lid} lesson={lesson} color={color} navigate={navigate} t={t} />
         ) : (
           <MissionRouter
             mission={currentMission} color={color} darkColor={darkColor}
-            onAdvance={advance} onWrong={triggerShake}
+            onAdvance={advance} onWrong={triggerShake} t={t}
           />
         )}
       </div>
@@ -316,19 +318,19 @@ function StarBurst({ color }) {
 }
 
 // ─── Mission router ────────────────────────────────────────────────────────────
-function MissionRouter({ mission, color, darkColor, onAdvance, onWrong }) {
+function MissionRouter({ mission, color, darkColor, onAdvance, onWrong, t }) {
   if (!mission) return null;
   switch (mission.type) {
-    case 'concept':     return <ConceptCard  mission={mission} color={color} darkColor={darkColor} onAdvance={onAdvance} />;
-    case 'tap_correct': return <TapCorrect   mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} />;
-    case 'match':       return <MatchPairs   mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} />;
-    case 'arrange':     return <ArrangeCode  mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} />;
+    case 'concept':     return <ConceptCard  mission={mission} color={color} darkColor={darkColor} onAdvance={onAdvance} t={t} />;
+    case 'tap_correct': return <TapCorrect   mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} t={t} />;
+    case 'match':       return <MatchPairs   mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} t={t} />;
+    case 'arrange':     return <ArrangeCode  mission={mission} color={color} onAdvance={onAdvance} onWrong={onWrong} t={t} />;
     default:            return null;
   }
 }
 
 // ─── Concept Card ──────────────────────────────────────────────────────────────
-function ConceptCard({ mission, color, darkColor, onAdvance }) {
+function ConceptCard({ mission, color, darkColor, onAdvance, t }) {
   const [revealed, setRevealed] = useState('');
   const [textDone, setTextDone] = useState(false);
   const intervalRef = useRef(null);
@@ -369,7 +371,7 @@ function ConceptCard({ mission, color, darkColor, onAdvance }) {
       }}>
         <div style={{ fontSize: 40, animation: 'enemyWatch 3s ease-in-out infinite', display: 'inline-block' }}>🐍</div>
         <div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color, letterSpacing: 1 }}>PY TEACHES</div>
+          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color, letterSpacing: 1 }}>{t('learn.pyTeaches')}</div>
           <div style={{ fontSize: 14, fontWeight: 800, color: 'rgba(255,255,255,0.9)', marginTop: 3 }}>{mission.title}</div>
         </div>
       </div>
@@ -430,14 +432,14 @@ function ConceptCard({ mission, color, darkColor, onAdvance }) {
         cursor: 'pointer',
         animation: textDone ? 'gotItPulse 1.8s ease-in-out infinite' : 'none',
       }}>
-        {textDone ? 'GOT IT! →' : 'SKIP →'}
+        {textDone ? t('learn.gotIt') : t('learn.skip')}
       </button>
     </div>
   );
 }
 
 // ─── Tap Correct ───────────────────────────────────────────────────────────────
-function TapCorrect({ mission, color, onAdvance, onWrong }) {
+function TapCorrect({ mission, color, onAdvance, onWrong, t }) {
   const [selected, setSelected] = useState(null);
   const [wrongIdx, setWrongIdx] = useState(null);
 
@@ -511,7 +513,7 @@ function TapCorrect({ mission, color, onAdvance, onWrong }) {
 }
 
 // ─── Match Pairs ───────────────────────────────────────────────────────────────
-function MatchPairs({ mission, color, onAdvance, onWrong }) {
+function MatchPairs({ mission, color, onAdvance, onWrong, t }) {
   const [leftSel,  setLeftSel]  = useState(null);
   const [matched,  setMatched]  = useState([]);
   const [wrongVal, setWrongVal] = useState(null);
@@ -569,13 +571,13 @@ function MatchPairs({ mission, color, onAdvance, onWrong }) {
             transition: 'all 0.2s ease',
           }} />
         ))}
-        <span style={{ marginLeft: 4 }}>{matchCount}/{mission.pairs.length} linked</span>
+        <span style={{ marginLeft: 4 }}>{matchCount}/{mission.pairs.length} {t('learn.linked')}</span>
       </div>
 
       <div style={{ display: 'flex', gap: 10 }}>
         {/* Left column */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)', fontFamily: "'Press Start 2P'", letterSpacing: 1, marginBottom: 2 }}>CONCEPT</div>
+          <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)', fontFamily: "'Press Start 2P'", letterSpacing: 1, marginBottom: 2 }}>{t('learn.types.concept').replace('📖 ','').toUpperCase()}</div>
           {mission.pairs.map((pair, i) => {
             const done = matched.includes(i);
             const sel  = leftSel === i;
@@ -634,7 +636,7 @@ function MatchPairs({ mission, color, onAdvance, onWrong }) {
 }
 
 // ─── Arrange Code ──────────────────────────────────────────────────────────────
-function ArrangeCode({ mission, color, onAdvance, onWrong }) {
+function ArrangeCode({ mission, color, onAdvance, onWrong, t }) {
   const [bank,     setBank]     = useState(() => [...mission.lines].sort(() => Math.random() - 0.5));
   const [arranged, setArranged] = useState([]);
   const [shake,    setShake]    = useState(false);
@@ -698,7 +700,7 @@ function ArrangeCode({ mission, color, onAdvance, onWrong }) {
           {['#FF5F57','#FEBC2E','#28C840'].map((c, i) => (
             <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: c }} />
           ))}
-          <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.18)', marginLeft: 4, fontFamily: 'monospace', letterSpacing: 2 }}>YOUR CODE</span>
+          <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.18)', marginLeft: 4, fontFamily: 'monospace', letterSpacing: 2 }}>{t('learn.yourCode')}</span>
           {arranged.length > 0 && (
             <span style={{ marginLeft: 'auto', fontSize: 8, color: `${color}80`, fontFamily: "'Press Start 2P'" }}>
               {arranged.length}/{mission.lines.length}
@@ -711,7 +713,7 @@ function ArrangeCode({ mission, color, onAdvance, onWrong }) {
             padding: '16px', fontSize: 11, color: 'rgba(255,255,255,0.18)',
             textAlign: 'center', fontStyle: 'italic', fontFamily: 'monospace',
           }}>
-            {'// tap lines below to build →'}
+            {t('learn.tapLines')}
           </div>
         ) : (
           <div style={{ padding: '10px 14px' }}>
@@ -734,7 +736,7 @@ function ArrangeCode({ mission, color, onAdvance, onWrong }) {
       {/* Code tile bank */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
         <div style={{ fontSize: 8, color: 'rgba(255,255,255,0.25)', fontFamily: "'Press Start 2P'", letterSpacing: 1 }}>
-          TAP TO ADD →
+          {t('learn.tapToAdd')}
         </div>
         {bank.map((line, i) => (
           <button key={i} onClick={() => addLine(line)} style={{
@@ -757,7 +759,7 @@ function ArrangeCode({ mission, color, onAdvance, onWrong }) {
 }
 
 // ─── All Done ──────────────────────────────────────────────────────────────────
-function AllDoneScreen({ uid, lid, lesson, color, navigate }) {
+function AllDoneScreen({ uid, lid, lesson, color, navigate, t }) {
   const [particles] = useState(() =>
     Array.from({ length: 32 }, (_, i) => {
       const angle = (i / 32) * Math.PI * 2;
@@ -809,7 +811,7 @@ function AllDoneScreen({ uid, lid, lesson, color, navigate }) {
         position: 'relative', zIndex: 2,
         animation: 'introPop 0.5s ease-out 0.2s both',
       }}>
-        TRAINING<br />COMPLETE!
+        {t('learn.trainingComplete')}
       </div>
 
       <div style={{
@@ -817,7 +819,7 @@ function AllDoneScreen({ uid, lid, lesson, color, navigate }) {
         position: 'relative', zIndex: 2,
         animation: 'conceptReveal 0.4s ease-out 0.4s both',
       }}>
-        You've learned the concepts —<br />now destroy the enemy in battle!
+        {t('learn.trainingSub')}
       </div>
 
       <button
@@ -833,7 +835,7 @@ function AllDoneScreen({ uid, lid, lesson, color, navigate }) {
           cursor: 'pointer', position: 'relative', zIndex: 2,
           animation: 'readyPulse 2s ease-in-out infinite, introPop 0.5s ease-out 0.5s both',
         }}
-      >⚔️ ENTER BATTLE</button>
+      >{t('learn.enterBattle')}</button>
     </div>
   );
 }

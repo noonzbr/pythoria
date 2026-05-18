@@ -11,9 +11,10 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      en:    { translation: en },
-      ptBR:  { translation: ptBR },
-      es:    { translation: es },
+      en:     { translation: en },
+      ptBR:   { translation: ptBR },
+      'pt-BR':{ translation: ptBR },
+      es:     { translation: es },
     },
     fallbackLng: 'en',
     detection: {

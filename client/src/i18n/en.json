@@ -179,6 +179,29 @@
     "tapContinue": "TAP TO CONTINUE",
     "tapEnter": "TAP TO ENTER REALM ⚔️"
   },
+  "learn": {
+    "header": "PRE-BATTLE TRAINING",
+    "pyTeaches": "PY TEACHES",
+    "skip": "SKIP →",
+    "gotIt": "GOT IT! →",
+    "tapToAdd": "TAP TO ADD →",
+    "yourCode": "YOUR CODE",
+    "tapLines": "// tap lines below to build →",
+    "linked": "linked",
+    "trainingComplete": "TRAINING COMPLETE!",
+    "trainingSub": "You've learned the concepts — now destroy the enemy in battle!",
+    "enterBattle": "⚔️ ENTER BATTLE",
+    "types": {
+      "concept": "📖 INTEL BRIEFING",
+      "conceptSub": "Study the codex",
+      "tap_correct": "⚡ QUICK DRAW",
+      "tapSub": "Tap the right answer",
+      "match": "🔗 COMBO LINK",
+      "matchSub": "Match all pairs",
+      "arrange": "📦 BUILD SEQUENCE",
+      "arrangeSub": "Order the code"
+    }
+  },
   "lang": {
     "label": "Language",
     "en": "English",

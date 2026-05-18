@@ -179,6 +179,29 @@
     "tapContinue": "TOQUE PARA CONTINUAR",
     "tapEnter": "TOQUE PARA ENTRAR NO REINO ⚔️"
   },
+  "learn": {
+    "header": "TREINAMENTO PRÉ-BATALHA",
+    "pyTeaches": "PY ENSINA",
+    "skip": "PULAR →",
+    "gotIt": "ENTENDI! →",
+    "tapToAdd": "TOQUE PARA ADICIONAR →",
+    "yourCode": "SEU CÓDIGO",
+    "tapLines": "// toque abaixo para construir →",
+    "linked": "conectados",
+    "trainingComplete": "TREINAMENTO COMPLETO!",
+    "trainingSub": "Você aprendeu os conceitos — agora destrua o inimigo na batalha!",
+    "enterBattle": "⚔️ ENTRAR NA BATALHA",
+    "types": {
+      "concept": "📖 BRIEFING DE INTEL",
+      "conceptSub": "Estude o códex",
+      "tap_correct": "⚡ RESPOSTA RÁPIDA",
+      "tapSub": "Toque na resposta certa",
+      "match": "🔗 COMBO LINK",
+      "matchSub": "Conecte todos os pares",
+      "arrange": "📦 MONTAR SEQUÊNCIA",
+      "arrangeSub": "Ordene o código"
+    }
+  },
   "lang": {
     "label": "Idioma",
     "en": "English",
