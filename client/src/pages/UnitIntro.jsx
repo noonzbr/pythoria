@@ -1,25 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { UNIT_INTROS } from '../data/story.js';
+import { UNIT_INTROS, CLASSES } from '../data/story.js';
 import { UNITS } from '../data/curriculum.js';
 import { locIntro, locIntroPanel } from '../utils/loc.js';
 import { useStory } from '../hooks/useStory.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { sounds } from '../utils/sounds.js';
+import { HeroFigureSVG } from './Home.jsx';
 
 const TYPEWRITER_SPEED = 20;
 
 export default function UnitIntro() {
   const { unitId } = useParams();
   const navigate   = useNavigate();
-  const { markUnitIntroSeen } = useStory();
+  const { markUnitIntroSeen, getPlayer } = useStory();
   const { completed } = useProgress();
   const { t, i18n } = useTranslation();
 
   const uid   = parseInt(unitId);
   const intro = UNIT_INTROS[uid];
   const unit  = UNITS.find(u => u.id === uid);
+  const player = getPlayer();
+  const cls = CLASSES.find(c => c.id === player?.classId) || CLASSES[0];
 
   const [panelIdx, setPanelIdx]   = useState(0);
   const [displayed, setDisplayed] = useState('');
@@ -126,24 +129,38 @@ export default function UnitIntro() {
       {/* Realm banner */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0,
-        background: `linear-gradient(90deg, ${theme.color}20, transparent, ${theme.color}20)`,
+        background: `linear-gradient(90deg, ${theme.color}20, rgba(0,0,0,0.7), ${theme.color}20)`,
         borderBottom: `1px solid ${theme.color}30`,
-        padding: '12px 20px',
+        padding: '10px 16px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        zIndex: 10,
+        zIndex: 10, gap: 10,
       }}>
-        <div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: theme.color, letterSpacing: 2 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* PYTHORIA mini wordmark */}
+          <div style={{ display: 'flex', gap: 1.5 }}>
+            {['P','Y','T','H','O','R','I','A'].map((ch, i) => (
+              <span key={i} style={{
+                fontFamily: "'Press Start 2P', monospace",
+                fontSize: 5.5,
+                color: [theme.color,'rgba(255,255,255,0.6)',theme.color,'rgba(255,255,255,0.6)',theme.color,'rgba(255,255,255,0.6)',theme.color,'rgba(255,255,255,0.6)'][i],
+                textShadow: i % 2 === 0 ? `0 0 6px ${theme.color}` : 'none',
+              }}>{ch}</span>
+            ))}
+          </div>
+          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6.5, color: theme.color, letterSpacing: 1.5 }}>
             {t('unitIntro.realm', { n: uid })}
           </div>
-          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: 'rgba(255,255,255,0.8)', marginTop: 3 }}>
+          <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 8, color: 'rgba(255,255,255,0.85)', marginTop: 1 }}>
             {lIntro.unitName}
           </div>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontFamily: "'Press Start 2P', monospace" }}>
-            {lIntro.fragmentName}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: 7, color: `${theme.color}90`, fontFamily: "'Press Start 2P', monospace", lineHeight: 1.5 }}>
+              {lIntro.fragmentName}
+            </div>
           </div>
+          <HeroFigureSVG cls={cls} size={38} animate />
         </div>
       </div>
 
@@ -157,12 +174,17 @@ export default function UnitIntro() {
         transition: 'opacity 0.45s ease, transform 0.45s ease',
       }}>
 
-        {/* Main emoji */}
-        <div style={{
-          fontSize: 72, lineHeight: 1,
-          filter: `drop-shadow(0 0 20px ${theme.color}80)`,
-          animation: 'emojiFloat 3.5s ease-in-out infinite',
-        }}>{panel.emoji}</div>
+        {/* Main emoji + Gio side by side */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, justifyContent: 'center' }}>
+          <div style={{
+            fontSize: 72, lineHeight: 1,
+            filter: `drop-shadow(0 0 20px ${theme.color}80)`,
+            animation: 'emojiFloat 3.5s ease-in-out infinite',
+          }}>{panel.emoji}</div>
+          <div style={{ animation: 'emojiFloat 3.5s ease-in-out 1.2s infinite', marginBottom: 4 }}>
+            <HeroFigureSVG cls={cls} size={68} />
+          </div>
+        </div>
 
         {/* Title */}
         {lPanel.title && (

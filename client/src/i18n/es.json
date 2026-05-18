@@ -136,7 +136,16 @@
       "fix": "Escribe el código corregido aquí...",
       "fill": "Escribe tu respuesta..."
     },
-    "exit": "✕"
+    "exit": "✕",
+    "phase": {
+      "question": "⚔️ {{name}} espera...",
+      "attack": "⚡ ¡GOLPE CRÍTICO! {{combo}}",
+      "enemyAttack": "💥 ¡{{name}} ATACA!",
+      "correct": "✅ ¡CORRECTO! {{extra}}",
+      "wrong": "❌ ¡INCORRECTO! ¡DAÑO RECIBIDO!",
+      "comboSuffix": "{{n}}x ¡COMBO!",
+      "streakSuffix": "{{n}}x ¡RACHA!"
+    }
   },
   "victory": {
     "title": "¡VICTORIA!",

@@ -574,11 +574,11 @@ export default function Lesson() {
           color: phase === 'correct' ? '#4ade80' : phase === 'wrong' || phase === 'enemy-attack' ? '#f87171' : `${unit.color}cc`,
           textAlign: 'center',
         }}>
-          {phase === 'question'      && `⚔️  ${enemyDef.name} awaits...`}
-          {phase === 'player-attack' && `⚡  CRITICAL HIT! ${combo >= 3 ? `${combo}x COMBO!` : ''}`}
-          {phase === 'enemy-attack'  && `💥  ${enemyDef.name} ATTACKS!`}
-          {phase === 'correct'       && `✅  CORRECT! ${combo >= 2 ? `${combo}x STREAK!` : 'NICE!'}`}
-          {phase === 'wrong'         && `❌  WRONG! TAKE DAMAGE!`}
+          {phase === 'question'      && t('battle.phase.question', { name: enemyDef.name })}
+          {phase === 'player-attack' && t('battle.phase.attack', { combo: combo >= 3 ? t('battle.phase.comboSuffix', { n: combo }) : '' })}
+          {phase === 'enemy-attack'  && t('battle.phase.enemyAttack', { name: enemyDef.name })}
+          {phase === 'correct'       && t('battle.phase.correct', { extra: combo >= 2 ? t('battle.phase.streakSuffix', { n: combo }) : '' })}
+          {phase === 'wrong'         && t('battle.phase.wrong')}
         </div>
       </div>
 

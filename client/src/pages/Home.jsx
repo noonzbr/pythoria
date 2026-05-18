@@ -8,6 +8,18 @@ import { CLASSES, UNIT_INTROS } from '../data/story.js';
 import { sounds } from '../utils/sounds.js';
 import { locIntro } from '../utils/loc.js';
 
+function splitRealmName(name) {
+  if (!name || name.length <= 13) return [name || '', null];
+  const mid = Math.floor(name.length / 2);
+  let sp = -1;
+  for (let d = 0; d <= mid; d++) {
+    if (mid - d >= 0 && name[mid - d] === ' ') { sp = mid - d; break; }
+    if (mid + d < name.length && name[mid + d] === ' ') { sp = mid + d; break; }
+  }
+  if (sp === -1) return [name.slice(0, 13), name.slice(13)];
+  return [name.slice(0, sp), name.slice(sp + 1)];
+}
+
 // Realm positions on the 380×440 SVG map (px)
 const REALMS = [
   { id: 1, x: 82,  y: 340, emoji: '🌿', color: '#58CC02', glow: '#58CC02', terrain: '#1a3a0a' },
@@ -293,14 +305,20 @@ export default function Home() {
                     {complete ? '✅' : unlocked ? r.emoji : '🔒'}
                   </text>
 
-                  {/* Realm name label */}
-                  <text x={r.x} y={r.y + 30} textAnchor="middle"
-                    fontSize="7" fontFamily="'Press Start 2P', monospace"
-                    fill={complete ? r.color : unlocked ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.2)'}
-                    style={{ userSelect: 'none' }}
-                  >
-                    {rName.length > 14 ? rName.slice(0, 13) + '…' : rName}
-                  </text>
+                  {/* Realm name label — split into 2 lines if long */}
+                  {(() => {
+                    const [l1, l2] = splitRealmName(rName);
+                    const fill = complete ? r.color : unlocked ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)';
+                    const y1 = l2 ? r.y + 26 : r.y + 30;
+                    return (
+                      <text x={r.x} y={y1} textAnchor="middle"
+                        fontSize="6" fontFamily="'Press Start 2P', monospace"
+                        fill={fill} style={{ userSelect: 'none' }}>
+                        <tspan x={r.x}>{l1}</tspan>
+                        {l2 && <tspan x={r.x} dy="10">{l2}</tspan>}
+                      </text>
+                    );
+                  })()}
 
                   {/* NOW badge */}
                   {isActive && (
@@ -310,7 +328,7 @@ export default function Home() {
                       <text x={r.x} y={r.y - 24} textAnchor="middle"
                         fontSize="6" fontFamily="'Press Start 2P', monospace" fill="#000"
                         style={{ userSelect: 'none' }}
-                      >NOW</text>
+                      >{t('map.nowLabel')}</text>
                     </g>
                   )}
                 </g>

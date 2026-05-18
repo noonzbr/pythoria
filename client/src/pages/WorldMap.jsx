@@ -22,6 +22,18 @@ const CONTINENT = 'M60,420 L20,370 L8,300 L18,240 L10,180 L30,120 L55,70 L90,30 
 const ARC_R = 22;
 const ARC_C = 2 * Math.PI * ARC_R;
 
+function splitRealmName(name) {
+  if (!name || name.length <= 13) return [name || '', null];
+  const mid = Math.floor(name.length / 2);
+  let sp = -1;
+  for (let d = 0; d <= mid; d++) {
+    if (mid - d >= 0 && name[mid - d] === ' ') { sp = mid - d; break; }
+    if (mid + d < name.length && name[mid + d] === ' ') { sp = mid + d; break; }
+  }
+  if (sp === -1) return [name.slice(0, 13), name.slice(13)];
+  return [name.slice(0, sp), name.slice(sp + 1)];
+}
+
 export default function WorldMap() {
   const navigate  = useNavigate();
   const { user, completed } = useProgress();
@@ -264,6 +276,14 @@ export default function WorldMap() {
                     <circle cx={r.x} cy={r.y} r={isSel ? 28 : 23}
                       fill={r.color} opacity={isSel ? 0.28 : isActive ? 0.18 : 0.1} />
                   )}
+                  {/* Active realm pulsing ring */}
+                  {isActive && !isSel && (
+                    <circle cx={r.x} cy={r.y} r={26}
+                      fill="none" stroke={r.color} strokeWidth={1.5}
+                      opacity={0.6}
+                      style={{ animation: 'activeRingPulse 2s ease-in-out infinite' }}
+                    />
+                  )}
 
                   {/* Progress arc track */}
                   {unlocked && (
@@ -291,14 +311,21 @@ export default function WorldMap() {
                     opacity={unlocked ? 1 : 0.3} style={{ userSelect: 'none' }}>
                     {complete ? '✅' : unlocked ? r.emoji : '🔒'}
                   </text>
-                  <text x={r.x} y={r.y+31} textAnchor="middle"
-                    fontSize="7" fontFamily="'Press Start 2P', monospace"
-                    fill={complete ? r.color : unlocked ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.2)'}
-                    style={{ userSelect: 'none' }}>
-                    {rName.length > 14 ? rName.slice(0,13)+'…' : rName}
-                  </text>
+                  {(() => {
+                    const [l1, l2] = splitRealmName(rName);
+                    const fill = complete ? r.color : unlocked ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)';
+                    const y1 = l2 ? r.y + 27 : r.y + 31;
+                    return (
+                      <text x={r.x} y={y1} textAnchor="middle"
+                        fontSize="6" fontFamily="'Press Start 2P', monospace"
+                        fill={fill} style={{ userSelect: 'none' }}>
+                        <tspan x={r.x}>{l1}</tspan>
+                        {l2 && <tspan x={r.x} dy="10">{l2}</tspan>}
+                      </text>
+                    );
+                  })()}
                   {unlocked && (
-                    <text x={r.x} y={r.y+43} textAnchor="middle"
+                    <text x={r.x} y={r.y + (splitRealmName(rName)[1] ? 50 : 43)} textAnchor="middle"
                       fontSize="5.5" fontFamily="'Press Start 2P', monospace"
                       fill={done > 0 ? r.color : 'rgba(255,255,255,0.2)'}
                       opacity={done > 0 ? 0.8 : 0.45}
@@ -452,26 +479,55 @@ export default function WorldMap() {
               )}
             </div>
 
-            {selUnlocked && selProg && (
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,255,255,0.35)' }}>
-                    {selProg.done}/{selProg.total} {t('map.lessons')}
+            {selUnlocked && selProg && (() => {
+              const selUnit = UNITS.find(u => u.id === selRealm.id);
+              return (
+                <div style={{ marginBottom: 12 }}>
+                  {/* Per-lesson progress dots */}
+                  {selUnit && (
+                    <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
+                      {selUnit.lessons.map((l, idx) => {
+                        const isDone = completed.some(c => c.unit_id === selRealm.id && c.lesson_id === l.id);
+                        const isNext = !isDone && idx === selProg.done;
+                        return (
+                          <div key={l.id} style={{
+                            width: 34, height: 34, borderRadius: 9,
+                            background: isDone ? `${selRealm.color}25` : isNext ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.03)',
+                            border: `1.5px solid ${isDone ? selRealm.color : isNext ? `${selRealm.color}60` : 'rgba(255,255,255,0.1)'}`,
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            fontSize: isDone ? 14 : 8,
+                            fontFamily: "'Press Start 2P', monospace",
+                            color: isDone ? selRealm.color : isNext ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)',
+                            boxShadow: isDone ? `0 0 6px ${selRealm.color}50` : 'none',
+                            transition: 'all 0.2s ease',
+                            flexShrink: 0,
+                          }}>
+                            {isDone ? '✓' : l.id}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                  {/* Overall progress bar */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                    <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,255,255,0.35)' }}>
+                      {selProg.done}/{selProg.total} {t('map.lessons')}
+                    </div>
+                    <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: selRealm.color }}>
+                      {Math.round(selProg.pct * 100)}%
+                    </div>
                   </div>
-                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: selRealm.color }}>
-                    {Math.round(selProg.pct * 100)}%
+                  <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: 99, height: 5, overflow: 'hidden' }}>
+                    <div style={{
+                      background: `linear-gradient(90deg, ${selRealm.color}, ${selRealm.color}cc)`,
+                      height: '100%', borderRadius: 99,
+                      width: `${selProg.pct * 100}%`, transition: 'width 0.6s ease',
+                      boxShadow: selProg.done > 0 ? `0 0 6px ${selRealm.color}80` : 'none',
+                    }} />
                   </div>
                 </div>
-                <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: 99, height: 5, overflow: 'hidden' }}>
-                  <div style={{
-                    background: `linear-gradient(90deg, ${selRealm.color}, ${selRealm.color}cc)`,
-                    height: '100%', borderRadius: 99,
-                    width: `${selProg.pct * 100}%`, transition: 'width 0.6s ease',
-                    boxShadow: selProg.done > 0 ? `0 0 6px ${selRealm.color}80` : 'none',
-                  }} />
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             {selUnlocked ? (
               <button
@@ -517,7 +573,8 @@ export default function WorldMap() {
       </div>
 
       <style>{`
-        @keyframes heroMapFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes heroMapFloat   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes activeRingPulse { 0%,100%{r:26;opacity:0.6} 50%{r:30;opacity:0.15} }
         @keyframes panelIn      { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
         @keyframes mapStarTwinkle { 0%,100%{opacity:.05} 50%{opacity:.28} }
         @keyframes ctaBorder    { 0%,100%{opacity:.5} 50%{opacity:1} }

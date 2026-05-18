@@ -136,7 +136,16 @@
       "fix": "Type the fixed code here...",
       "fill": "Type your answer..."
     },
-    "exit": "✕"
+    "exit": "✕",
+    "phase": {
+      "question": "⚔️ {{name}} awaits...",
+      "attack": "⚡ CRITICAL HIT! {{combo}}",
+      "enemyAttack": "💥 {{name}} ATTACKS!",
+      "correct": "✅ CORRECT! {{extra}}",
+      "wrong": "❌ WRONG! TAKE DAMAGE!",
+      "comboSuffix": "{{n}}x COMBO!",
+      "streakSuffix": "{{n}}x STREAK!"
+    }
   },
   "victory": {
     "title": "VICTORY!",
