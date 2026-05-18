@@ -114,6 +114,8 @@
     "enterBtn": "▶ ENTER REALM",
     "continueBtn": "▶ CONTINUE",
     "lessons": "lessons",
+    "tapHint": "TAP A REALM",
+    "battlesLabel": "BATTLES",
     "allSaved": "PYTHORIA SAVED",
     "allSavedMsg": "The Python Codex is whole once more. Py is proud of you."
   },

@@ -9,7 +9,6 @@ import { sounds } from '../utils/sounds.js';
 import { locIntro } from '../utils/loc.js';
 import { HeroAvatar } from './Home.jsx';
 
-// Realm positions on 380×440 SVG (same as Home.jsx map)
 const REALMS = [
   { id: 1, x: 82,  y: 340, emoji: '🌿', color: '#58CC02', terrain: '#1a3a0a' },
   { id: 2, x: 252, y: 282, emoji: '🏛️', color: '#1CB0F6', terrain: '#051828' },
@@ -20,16 +19,28 @@ const REALMS = [
 
 const CONTINENT = 'M60,420 L20,370 L8,300 L18,240 L10,180 L30,120 L55,70 L90,30 L140,12 L200,8 L255,18 L310,40 L345,80 L368,130 L372,190 L360,250 L348,310 L330,360 L310,400 L270,430 L200,440 L130,438 L80,430 Z';
 
+const ARC_R = 22;
+const ARC_C = 2 * Math.PI * ARC_R;
+
 export default function WorldMap() {
   const navigate  = useNavigate();
-  const { completed } = useProgress();
+  const { user, completed } = useProgress();
   const { getPlayer, hasSeenUnitIntro } = useStory();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(null);
 
   const player = getPlayer();
   const cls    = CLASSES.find(c => c.id === player.classId) || CLASSES[0];
   const realmNames = t('home.realmNames', { returnObjects: true });
+
+  const totalLessons = UNITS.reduce((sum, u) => sum + u.lessons.length, 0);
+
+  const realmProgress = (uid) => {
+    const unit = UNITS.find(u => u.id === uid);
+    const total = unit?.lessons.length || 0;
+    const done  = completed.filter(c => c.unit_id === uid).length;
+    return { done, total, pct: total ? done / total : 0 };
+  };
 
   const isUnitComplete = (uid) => {
     const unit = UNITS.find(u => u.id === uid);
@@ -58,12 +69,14 @@ export default function WorldMap() {
     from: r, to: REALMS[i + 1], unlocked: isUnitComplete(i + 1),
   }));
 
-  const selRealm = REALMS.find(r => r.id === selected);
-  const selIntro = selRealm && UNIT_INTROS[selRealm.id]
-    ? locIntro(selRealm.id, UNIT_INTROS[selRealm.id])
-    : null;
+  const selRealm    = REALMS.find(r => r.id === selected);
+  const selIntro    = selRealm && UNIT_INTROS[selRealm.id] ? locIntro(selRealm.id, UNIT_INTROS[selRealm.id]) : null;
   const selUnlocked = selRealm ? isUnitUnlocked(selRealm.id) : false;
   const selComplete = selRealm ? isUnitComplete(selRealm.id) : false;
+  const selProg     = selRealm ? realmProgress(selRealm.id) : null;
+
+  const xpCurrent = user ? user.xp % 100 : 0;
+  const totalDone  = completed.length;
 
   return (
     <div style={{
@@ -76,8 +89,8 @@ export default function WorldMap() {
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '14px 16px', position: 'relative', zIndex: 1 }}>
 
-        {/* ── Map header ───────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        {/* ── Header ───────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
             <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 13, color: 'rgba(255,255,255,0.85)', letterSpacing: 4 }}>
               {t('map.title').toUpperCase()}
@@ -88,6 +101,73 @@ export default function WorldMap() {
           </div>
           <HeroAvatar cls={cls} size={38} />
         </div>
+
+        {/* ── Stats Strip ──────────────────────────────────────────────────── */}
+        {user && (
+          <div style={{ display: 'flex', gap: 6, marginBottom: 10 }}>
+
+            {/* Hearts */}
+            <div style={{
+              flex: 1, background: 'rgba(255,75,75,0.08)',
+              border: '1px solid rgba(255,75,75,0.18)',
+              borderRadius: 12, padding: '8px 10px', textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,75,75,0.6)', letterSpacing: 1, marginBottom: 6 }}>
+                {t('home.stats.hearts')}
+              </div>
+              <div style={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                {Array.from({ length: 5 }, (_, i) => (
+                  <div key={i} style={{
+                    width: 8, height: 8, borderRadius: '50%',
+                    background: i < user.hearts ? '#FF4B4B' : 'rgba(255,255,255,0.1)',
+                    boxShadow: i < user.hearts ? '0 0 5px #FF4B4B88' : 'none',
+                    transition: 'all 0.3s',
+                  }} />
+                ))}
+              </div>
+            </div>
+
+            {/* Level + XP */}
+            <div style={{
+              flex: 1.7, background: 'rgba(250,204,21,0.07)',
+              border: '1px solid rgba(250,204,21,0.18)',
+              borderRadius: 12, padding: '8px 12px',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
+                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 7, color: '#facc15', letterSpacing: 1 }}>
+                  {t('home.stats.level')} {user.level}
+                </div>
+                <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 5.5, color: 'rgba(255,255,255,0.25)' }}>
+                  {xpCurrent}/100
+                </div>
+              </div>
+              <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: 99, height: 5, overflow: 'hidden' }}>
+                <div style={{
+                  background: 'linear-gradient(90deg, #facc15, #f59e0b)',
+                  height: '100%', borderRadius: 99,
+                  width: `${xpCurrent}%`, transition: 'width 0.8s ease',
+                }} />
+              </div>
+            </div>
+
+            {/* Battles progress */}
+            <div style={{
+              flex: 1, background: 'rgba(88,204,2,0.07)',
+              border: '1px solid rgba(88,204,2,0.18)',
+              borderRadius: 12, padding: '8px 10px', textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(88,204,2,0.6)', letterSpacing: 1, marginBottom: 4 }}>
+                {t('map.battlesLabel')}
+              </div>
+              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 13, color: '#58CC02', lineHeight: 1 }}>
+                {totalDone}
+              </div>
+              <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 5.5, color: 'rgba(255,255,255,0.25)', marginTop: 2 }}>
+                /{totalLessons}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ── RPG World Map SVG ─────────────────────────────────────────────── */}
         <div style={{
@@ -190,33 +270,76 @@ export default function WorldMap() {
               const isActive = unlocked && !complete;
               const isSel    = selected === r.id;
               const rName    = realmNames[r.id - 1] || '';
+              const { done, total, pct } = realmProgress(r.id);
+              const arcLen   = pct * ARC_C;
+
               return (
                 <g key={r.id} style={{ cursor: unlocked ? 'pointer' : 'default' }}
                   onClick={() => { if (!unlocked) return; sounds.select(); setSelected(isSel ? null : r.id); }}>
+
+                  {/* Outer glow */}
                   {(isActive || complete || isSel) && (
-                    <circle cx={r.x} cy={r.y} r={isSel ? 26 : 22}
+                    <circle cx={r.x} cy={r.y} r={isSel ? 28 : 23}
                       fill={r.color} opacity={isSel ? 0.28 : isActive ? 0.18 : 0.1} />
                   )}
+
+                  {/* Progress arc track (background ring) */}
+                  {unlocked && (
+                    <circle cx={r.x} cy={r.y} r={ARC_R}
+                      fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={2.5} />
+                  )}
+
+                  {/* Progress arc fill */}
+                  {unlocked && done > 0 && (
+                    <circle cx={r.x} cy={r.y} r={ARC_R}
+                      fill="none"
+                      stroke={complete ? r.color : r.color}
+                      strokeWidth={2.5}
+                      strokeDasharray={`${arcLen} ${ARC_C - arcLen}`}
+                      strokeLinecap="round"
+                      opacity={complete ? 0.9 : 0.65}
+                      transform={`rotate(-90, ${r.x}, ${r.y})`}
+                    />
+                  )}
+
+                  {/* Main circle */}
                   <circle cx={r.x} cy={r.y} r={16}
                     fill={complete ? r.color : unlocked ? `${r.color}30` : '#0d0d18'}
                     stroke={isSel ? 'white' : complete ? r.color : unlocked ? `${r.color}80` : 'rgba(255,255,255,0.1)'}
                     strokeWidth={isSel ? 2.5 : isActive ? 2.5 : 1.5}
                     opacity={unlocked ? 1 : 0.4}
                   />
+
+                  {/* Icon */}
                   <text x={r.x} y={r.y+6} textAnchor="middle" fontSize={unlocked ? 16 : 13}
                     opacity={unlocked ? 1 : 0.3} style={{ userSelect: 'none' }}>
                     {complete ? '✅' : unlocked ? r.emoji : '🔒'}
                   </text>
-                  <text x={r.x} y={r.y+30} textAnchor="middle"
+
+                  {/* Realm name */}
+                  <text x={r.x} y={r.y+31} textAnchor="middle"
                     fontSize="7" fontFamily="'Press Start 2P', monospace"
                     fill={complete ? r.color : unlocked ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.2)'}
                     style={{ userSelect: 'none' }}>
                     {rName.length > 14 ? rName.slice(0,13)+'…' : rName}
                   </text>
+
+                  {/* Lesson progress fraction (unlocked realms only) */}
+                  {unlocked && (
+                    <text x={r.x} y={r.y+42} textAnchor="middle"
+                      fontSize="5.5" fontFamily="'Press Start 2P', monospace"
+                      fill={done > 0 ? r.color : 'rgba(255,255,255,0.2)'}
+                      opacity={done > 0 ? 0.8 : 0.5}
+                      style={{ userSelect: 'none' }}>
+                      {done}/{total}
+                    </text>
+                  )}
+
+                  {/* NOW badge */}
                   {isActive && !isSel && (
                     <g>
-                      <rect x={r.x-14} y={r.y-33} width={28} height={12} rx={3} fill={r.color} />
-                      <text x={r.x} y={r.y-24} textAnchor="middle"
+                      <rect x={r.x-14} y={r.y-35} width={28} height={12} rx={3} fill={r.color} />
+                      <text x={r.x} y={r.y-26} textAnchor="middle"
                         fontSize="6" fontFamily="'Press Start 2P', monospace" fill="#000"
                         style={{ userSelect: 'none' }}>{t('map.nowLabel')}</text>
                     </g>
@@ -228,16 +351,14 @@ export default function WorldMap() {
             {/* Hero on active realm */}
             {!allComplete && (
               <g style={{ animation: 'heroMapFloat 2.5s ease-in-out infinite' }}>
-                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 44} color={cls.color} />
+                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 46} color={cls.color} />
               </g>
             )}
 
-            {/* All complete */}
             {allComplete && (
               <text x="190" y="228" textAnchor="middle" fontSize="40" style={{ userSelect: 'none' }}>🏆</text>
             )}
 
-            {/* Compass */}
             <text x="360" y="430" textAnchor="middle" fontSize="6" fontFamily="'Press Start 2P', monospace"
               fill="rgba(255,255,255,0.25)" style={{ userSelect: 'none' }}>N</text>
           </svg>
@@ -249,7 +370,7 @@ export default function WorldMap() {
               fontFamily: "'Press Start 2P', monospace", fontSize: 5.5,
               color: 'rgba(255,255,255,0.2)', letterSpacing: 1, whiteSpace: 'nowrap',
             }}>
-              TAP A REALM
+              {t('map.tapHint')}
             </div>
           )}
         </div>
@@ -282,6 +403,29 @@ export default function WorldMap() {
                 </span>
               )}
             </div>
+
+            {/* Lesson progress bar */}
+            {selUnlocked && selProg && (
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,255,255,0.35)' }}>
+                    {selProg.done}/{selProg.total} {t('map.lessons')}
+                  </div>
+                  <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: selRealm.color, opacity: 0.8 }}>
+                    {Math.round(selProg.pct * 100)}%
+                  </div>
+                </div>
+                <div style={{ background: 'rgba(0,0,0,0.4)', borderRadius: 99, height: 5, overflow: 'hidden' }}>
+                  <div style={{
+                    background: `linear-gradient(90deg, ${selRealm.color}, ${selRealm.color}cc)`,
+                    height: '100%', borderRadius: 99,
+                    width: `${selProg.pct * 100}%`,
+                    transition: 'width 0.6s ease',
+                    boxShadow: selProg.done > 0 ? `0 0 6px ${selRealm.color}80` : 'none',
+                  }} />
+                </div>
+              </div>
+            )}
 
             {selUnlocked ? (
               <button
@@ -327,8 +471,8 @@ export default function WorldMap() {
       </div>
 
       <style>{`
-        @keyframes heroMapFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-        @keyframes panelIn      { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
+        @keyframes heroMapFloat   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes panelIn        { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
         @keyframes mapStarTwinkle { 0%,100%{opacity:.05} 50%{opacity:.28} }
       `}</style>
     </div>

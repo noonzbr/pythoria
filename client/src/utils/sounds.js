@@ -172,6 +172,35 @@ export const sounds = {
     tone(440, 'sawtooth', 0.12, 0.2, 0.1);
     tone(330, 'square', 0.25, 0.25, 0.25);
   },
+  // Tetris-specific
+  tetrisIntro: () => {
+    // Epic gold fanfare — bonus game entrance
+    tone(165, 'sawtooth', 0.12, 0.20);
+    tone(220, 'sawtooth', 0.14, 0.22, 0.10);
+    tone(330, 'square',   0.18, 0.26, 0.22);
+    tone(440, 'square',   0.20, 0.28, 0.36);
+    tone(550, 'square',   0.22, 0.30, 0.52);
+    tone(660, 'square',   0.28, 0.34, 0.70);
+    tone(880, 'sine',     0.50, 0.32, 0.90);
+    noise(0.18, 0.14, 0.04);
+    noise(0.12, 0.10, 0.92);
+  },
+  tetrisLand: () => {
+    // Low thud when a piece settles
+    tone(120, 'triangle', 0.08, 0.28);
+    noise(0.05, 0.18);
+    tone(80,  'sawtooth', 0.06, 0.18, 0.02);
+  },
+  tetrisHeart: () => {
+    // Warm pulse when a heart is earned
+    tone(523, 'sine',     0.20, 0.30);
+    tone(659, 'sine',     0.18, 0.26, 0.12);
+    tone(784, 'sine',     0.28, 0.32, 0.26);
+    tone(1047,'triangle', 0.45, 0.28, 0.44);
+    tone(784, 'sine',     0.20, 0.18, 0.72);
+    noise(0.06, 0.08, 0.05);
+  },
+
   toggleMute: () => { muted = !muted; return muted; },
   isMuted: () => muted,
 };

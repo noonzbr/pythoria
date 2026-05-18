@@ -114,6 +114,8 @@
     "enterBtn": "▶ ENTRAR NO REINO",
     "continueBtn": "▶ CONTINUAR",
     "lessons": "lições",
+    "tapHint": "TOQUE UM REINO",
+    "battlesLabel": "BATALHAS",
     "allSaved": "PYTHORIA SALVA",
     "allSavedMsg": "O Códex Python está completo novamente. Py tem muito orgulho de você."
   },
