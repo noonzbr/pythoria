@@ -109,7 +109,8 @@
     "tapHint": "TAP A REALM",
     "battlesLabel": "BATTLES",
     "allSaved": "PYTHORIA SAVED",
-    "allSavedMsg": "The Python Codex is whole once more. Py is proud of you."
+    "allSavedMsg": "The Python Codex is whole once more. Py is proud of you.",
+    "codex": "CODEX FRAGMENTS"
   },
   "battle": {
     "waiting": "awaits your answer...",

@@ -109,7 +109,8 @@
     "tapHint": "TOCA UN REINO",
     "battlesLabel": "BATALLAS",
     "allSaved": "PYTHORIA SALVADA",
-    "allSavedMsg": "El Códex Python está completo de nuevo. Py está orgulloso de ti."
+    "allSavedMsg": "El Códex Python está completo de nuevo. Py está orgulloso de ti.",
+    "codex": "FRAGMENTOS DEL CÓDEX"
   },
   "battle": {
     "waiting": "espera tu respuesta...",

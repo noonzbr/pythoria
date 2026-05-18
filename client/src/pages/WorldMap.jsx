@@ -9,12 +9,13 @@ import { sounds } from '../utils/sounds.js';
 import { locIntro } from '../utils/loc.js';
 import { HeroAvatar } from './Home.jsx';
 
+// Wide x-spread prevents label overlap: left=90, right=278, center=183
 const REALMS = [
-  { id: 1, x: 82,  y: 340, emoji: '🌿', color: '#58CC02', terrain: '#1a3a0a' },
-  { id: 2, x: 252, y: 282, emoji: '🏛️', color: '#1CB0F6', terrain: '#051828' },
-  { id: 3, x: 130, y: 205, emoji: '🌀', color: '#FF9600', terrain: '#2a1500' },
-  { id: 4, x: 265, y: 120, emoji: '🏰', color: '#CE82FF', terrain: '#180030' },
-  { id: 5, x: 160, y:  48, emoji: '🔥', color: '#FF4B4B', terrain: '#300000' },
+  { id: 1, x: 90,  y: 370, emoji: '🌿', color: '#58CC02', terrain: '#1a3a0a' },
+  { id: 2, x: 278, y: 295, emoji: '🏛️', color: '#1CB0F6', terrain: '#051828' },
+  { id: 3, x: 90,  y: 218, emoji: '🌀', color: '#FF9600', terrain: '#2a1500' },
+  { id: 4, x: 278, y: 133, emoji: '🏰', color: '#CE82FF', terrain: '#180030' },
+  { id: 5, x: 183, y: 53,  emoji: '🔥', color: '#FF4B4B', terrain: '#300000' },
 ];
 
 const CONTINENT = 'M60,420 L20,370 L8,300 L18,240 L10,180 L30,120 L55,70 L90,30 L140,12 L200,8 L255,18 L310,40 L345,80 L368,130 L372,190 L360,250 L348,310 L330,360 L310,400 L270,430 L200,440 L130,438 L80,430 Z';
@@ -91,6 +92,7 @@ export default function WorldMap() {
   const selProg     = selRealm ? realmProgress(selRealm.id) : null;
 
   const xpCurrent = user ? user.xp % 100 : 0;
+  const completedRealms = UNITS.filter(u => isUnitComplete(u.id)).length;
 
   return (
     <div style={{
@@ -103,11 +105,15 @@ export default function WorldMap() {
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '14px 16px 0', position: 'relative', zIndex: 1 }}>
 
-        {/* ── Header ───────────────────────────────────────────────────────── */}
+        {/* ── Header with styled PYTHORIA logo ─────────────────────────────── */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
-            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 13, color: 'rgba(255,255,255,0.85)', letterSpacing: 4 }}>
-              {t('map.title').toUpperCase()}
+            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 13, letterSpacing: 4, lineHeight: 1.3 }}>
+              <span style={{ color: '#58CC02', textShadow: '0 0 14px #58CC0270' }}>PY</span>
+              <span style={{ color: 'rgba(255,255,255,0.92)' }}>TH</span>
+              <span style={{ color: '#1CB0F6', textShadow: '0 0 14px #1CB0F670' }}>OR</span>
+              <span style={{ color: 'rgba(255,255,255,0.92)' }}>IA</span>
+              <span style={{ fontSize: 11, marginLeft: 7 }}>🐉</span>
             </div>
             <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,255,255,0.25)', letterSpacing: 3, marginTop: 3 }}>
               {t('map.subtitle')}
@@ -170,6 +176,42 @@ export default function WorldMap() {
           </div>
         )}
 
+        {/* ── Codex Fragment Meter ─────────────────────────────────────────── */}
+        <div style={{
+          marginBottom: 10, padding: '10px 14px',
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: 14,
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 7 }}>
+            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 5.5, color: 'rgba(255,255,255,0.35)', letterSpacing: 1 }}>
+              🐉 {t('map.codex')}
+            </div>
+            <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 5.5, color: 'rgba(255,255,255,0.22)' }}>
+              {completedRealms}/5
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 5 }}>
+            {REALMS.map((realm) => {
+              const done  = isUnitComplete(realm.id);
+              const isAct = !allComplete && realm.id === Math.min(activeUnitId, 5);
+              const unlk  = isUnitUnlocked(realm.id);
+              return (
+                <div key={realm.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                  <div style={{
+                    width: '100%', height: 7, borderRadius: 99,
+                    background: done ? realm.color : isAct ? `${realm.color}35` : 'rgba(255,255,255,0.05)',
+                    boxShadow: done ? `0 0 10px ${realm.color}70` : isAct ? `0 0 6px ${realm.color}40` : 'none',
+                    transition: 'all 0.5s ease',
+                    border: `1px solid ${done ? realm.color : unlk ? `${realm.color}30` : 'rgba(255,255,255,0.06)'}`,
+                  }} />
+                  <div style={{ fontSize: 7, opacity: done ? 1 : isAct ? 0.6 : 0.2 }}>{realm.emoji}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* ── RPG World Map SVG ─────────────────────────────────────────────── */}
         <div style={{
           position: 'relative', borderRadius: 20,
@@ -185,23 +227,23 @@ export default function WorldMap() {
                 <stop offset="0%" stopColor="#051428" />
                 <stop offset="100%" stopColor="#020810" />
               </radialGradient>
-              <radialGradient id="wg1" cx="82" cy="340" r="90" gradientUnits="userSpaceOnUse">
+              <radialGradient id="wg1" cx="90" cy="370" r="90" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#1a4a08" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#0a2004" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id="wg2" cx="252" cy="282" r="80" gradientUnits="userSpaceOnUse">
+              <radialGradient id="wg2" cx="278" cy="295" r="80" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#051828" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#020a14" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id="wg3" cx="130" cy="205" r="80" gradientUnits="userSpaceOnUse">
+              <radialGradient id="wg3" cx="90" cy="218" r="80" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#2a1800" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#140c00" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id="wg4" cx="265" cy="120" r="75" gradientUnits="userSpaceOnUse">
+              <radialGradient id="wg4" cx="278" cy="133" r="75" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#200040" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#0d0018" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id="wg5" cx="160" cy="48" r="75" gradientUnits="userSpaceOnUse">
+              <radialGradient id="wg5" cx="183" cy="53" r="75" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stopColor="#300000" stopOpacity="0.9" />
                 <stop offset="100%" stopColor="#180000" stopOpacity="0" />
               </radialGradient>
@@ -215,40 +257,47 @@ export default function WorldMap() {
             <path d={CONTINENT} fill="url(#wg4)" />
             <path d={CONTINENT} fill="url(#wg5)" />
 
+            {/* Terrain lines */}
             {['M40,380 Q100,350 160,360 Q220,370 280,345','M25,320 Q80,295 140,305 Q200,315 260,285 Q310,265 355,280',
               'M18,255 Q65,235 125,248 Q185,260 245,230 Q295,210 350,220','M22,190 Q70,172 130,185 Q188,198 248,168 Q300,148 355,162',
               'M32,130 Q82,112 140,125 Q196,138 255,108 Q308,88 358,102','M50,75 Q98,58 155,70 Q210,82 268,55 Q316,35 360,48',
             ].map((d, i) => <path key={i} d={d} fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="1" />)}
 
+            {/* Mountain decorations near realm 4 */}
             <g opacity="0.4">
-              {[[270,142],[255,150],[285,148],[262,135],[290,138]].map(([x,y],i) => (
+              {[[270,155],[255,163],[285,161],[262,148],[290,151]].map(([x,y],i) => (
                 <polygon key={i} points={`${x},${y} ${x-6},${y+11} ${x+6},${y+11}`}
                   fill={`rgba(150,100,220,${0.2+i*0.06})`} stroke="rgba(180,130,255,0.3)" strokeWidth="0.5" />
               ))}
             </g>
+            {/* Tree decorations near realm 3 */}
             <g opacity="0.45">
-              {[[118,224],[132,228],[108,218],[145,215],[122,212]].map(([x,y],i) => (
+              {[[76,237],[90,241],[66,231],[103,228],[80,225]].map(([x,y],i) => (
                 <g key={i}>
                   <circle cx={x} cy={y} r="5" fill={`rgba(80,120,20,${0.4+i*0.05})`} />
                   <line x1={x} y1={y+4} x2={x} y2={y+8} stroke="rgba(60,30,10,0.6)" strokeWidth="1.5" />
                 </g>
               ))}
             </g>
+            {/* Marsh decorations near realm 1 */}
             <g opacity="0.5">
-              {[[70,355],[90,362],[75,370],[100,358]].map(([x,y],i) => (
+              {[[68,392],[88,399],[72,408],[100,395]].map(([x,y],i) => (
                 <ellipse key={i} cx={x} cy={y} rx={6+i} ry={3} fill="rgba(30,80,20,0.5)" />
               ))}
             </g>
 
+            {/* Shore waves */}
             {['M2,200 Q15,195 28,200','M355,280 Q365,275 375,280','M2,300 Q12,295 22,300'].map((d,i)=>(
               <path key={i} d={d} fill="none" stroke="rgba(100,160,220,0.25)" strokeWidth="1.5" />
             ))}
 
+            {/* Winding adventure path through all realms */}
             <polyline
-              points="82,340, 115,315, 148,300, 195,292, 252,282, 225,255, 185,238, 155,220, 130,205, 145,175, 168,152, 198,138, 228,128, 255,120, 235,92, 210,72, 185,58, 160,48"
+              points="90,370 140,348 188,326 234,310 278,295 252,275 212,260 154,242 90,218 118,200 155,182 196,164 244,148 278,133 258,110 230,90 206,72 183,53"
               fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="3"
               strokeDasharray="6,5" strokeLinecap="round"
             />
+            {/* Progress-colored segment lines between realms */}
             {pathPairs.map((seg, i) => (
               <line key={i}
                 x1={REALMS[i].x} y1={REALMS[i].y} x2={REALMS[i+1].x} y2={REALMS[i+1].y}
@@ -259,6 +308,7 @@ export default function WorldMap() {
               />
             ))}
 
+            {/* Realm nodes */}
             {REALMS.map((r) => {
               const unlocked  = isUnitUnlocked(r.id);
               const complete  = isUnitComplete(r.id);
@@ -267,16 +317,41 @@ export default function WorldMap() {
               const rName     = realmNames[r.id - 1] || '';
               const { done, total, pct } = realmProgress(r.id);
               const arcLen    = pct * ARC_C;
+              const [l1, l2]  = splitRealmName(rName);
+              const labelFill = complete ? r.color : unlocked ? 'rgba(255,255,255,0.82)' : 'rgba(255,255,255,0.2)';
+              const labelY    = r.y + 27;
+              const dotsY     = labelY + (l2 ? 22 : 12);
+
+              // Per-lesson dots for this realm
+              const unit = UNITS.find(u => u.id === r.id);
+              const lessonDots = unit ? unit.lessons.map((l, idx) => {
+                const isDone = completed.some(c => c.unit_id === r.id && c.lesson_id === l.id);
+                const isNext = !isDone && idx === done;
+                const n = unit.lessons.length;
+                const spacing = Math.min(9, 60 / Math.max(n, 1));
+                const startX = r.x - ((n - 1) * spacing) / 2;
+                return (
+                  <circle key={l.id}
+                    cx={startX + idx * spacing} cy={dotsY}
+                    r={3}
+                    fill={isDone ? r.color : 'rgba(255,255,255,0.07)'}
+                    stroke={isDone ? 'none' : isNext ? `${r.color}90` : `rgba(255,255,255,0.15)`}
+                    strokeWidth={isDone ? 0 : 0.8}
+                    opacity={unlocked ? (isDone ? 1 : 0.7) : 0.25}
+                  />
+                );
+              }) : [];
 
               return (
                 <g key={r.id} style={{ cursor: unlocked ? 'pointer' : 'default' }}
                   onClick={() => { if (!unlocked) return; sounds.select(); setSelected(isSel ? null : r.id); }}>
 
+                  {/* Glow halo */}
                   {(isActive || complete || isSel) && (
                     <circle cx={r.x} cy={r.y} r={isSel ? 28 : 23}
                       fill={r.color} opacity={isSel ? 0.28 : isActive ? 0.18 : 0.1} />
                   )}
-                  {/* Active realm pulsing ring */}
+                  {/* Pulsing ring for active realm */}
                   {isActive && !isSel && (
                     <circle cx={r.x} cy={r.y} r={26}
                       fill="none" stroke={r.color} strokeWidth={1.5}
@@ -301,6 +376,7 @@ export default function WorldMap() {
                     />
                   )}
 
+                  {/* Realm circle */}
                   <circle cx={r.x} cy={r.y} r={16}
                     fill={complete ? r.color : unlocked ? `${r.color}30` : '#0d0d18'}
                     stroke={isSel ? 'white' : complete ? r.color : unlocked ? `${r.color}80` : 'rgba(255,255,255,0.1)'}
@@ -311,29 +387,19 @@ export default function WorldMap() {
                     opacity={unlocked ? 1 : 0.3} style={{ userSelect: 'none' }}>
                     {complete ? '✅' : unlocked ? r.emoji : '🔒'}
                   </text>
-                  {(() => {
-                    const [l1, l2] = splitRealmName(rName);
-                    const fill = complete ? r.color : unlocked ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)';
-                    const y1 = l2 ? r.y + 27 : r.y + 31;
-                    return (
-                      <text x={r.x} y={y1} textAnchor="middle"
-                        fontSize="6" fontFamily="'Press Start 2P', monospace"
-                        fill={fill} style={{ userSelect: 'none' }}>
-                        <tspan x={r.x}>{l1}</tspan>
-                        {l2 && <tspan x={r.x} dy="10">{l2}</tspan>}
-                      </text>
-                    );
-                  })()}
-                  {unlocked && (
-                    <text x={r.x} y={r.y + (splitRealmName(rName)[1] ? 50 : 43)} textAnchor="middle"
-                      fontSize="5.5" fontFamily="'Press Start 2P', monospace"
-                      fill={done > 0 ? r.color : 'rgba(255,255,255,0.2)'}
-                      opacity={done > 0 ? 0.8 : 0.45}
-                      style={{ userSelect: 'none' }}>
-                      {done}/{total}
-                    </text>
-                  )}
 
+                  {/* Realm name — each column has distinct x, guaranteed no overlap */}
+                  <text x={r.x} y={labelY} textAnchor="middle"
+                    fontSize="6" fontFamily="'Press Start 2P', monospace"
+                    fill={labelFill} style={{ userSelect: 'none' }}>
+                    <tspan x={r.x}>{l1}</tspan>
+                    {l2 && <tspan x={r.x} dy="10">{l2}</tspan>}
+                  </text>
+
+                  {/* Per-lesson mission bullets */}
+                  {lessonDots}
+
+                  {/* NOW badge on active realm */}
                   {isActive && !isSel && (
                     <g>
                       <rect x={r.x-14} y={r.y-35} width={28} height={12} rx={3} fill={r.color} />
@@ -346,16 +412,15 @@ export default function WorldMap() {
               );
             })}
 
+            {/* Gio (player character) on active realm */}
             {!allComplete && (
               <g style={{ animation: 'heroMapFloat 2.5s ease-in-out infinite' }}>
-                {/* Glow halo under Gio */}
-                <ellipse cx={activeRealm.x} cy={activeRealm.y - 46} rx={14} ry={4}
-                  fill={cls.color} opacity={0.22} />
-                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 64} color={cls.color} scale={1.5} />
-                {/* Name tag */}
-                <rect x={activeRealm.x - 14} y={activeRealm.y - 90} width={28} height={11} rx={3}
+                <ellipse cx={activeRealm.x} cy={activeRealm.y - 32} rx={13} ry={4}
+                  fill={cls.color} opacity={0.18} />
+                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 58} color={cls.color} scale={1.4} />
+                <rect x={activeRealm.x - 14} y={activeRealm.y - 88} width={28} height={11} rx={3}
                   fill={cls.color} opacity={0.9} />
-                <text x={activeRealm.x} y={activeRealm.y - 82} textAnchor="middle"
+                <text x={activeRealm.x} y={activeRealm.y - 80} textAnchor="middle"
                   fontSize="5.5" fontFamily="'Press Start 2P', monospace" fill="#000"
                   style={{ userSelect: 'none' }}>{player.name || 'GIO'}</text>
               </g>
@@ -363,8 +428,14 @@ export default function WorldMap() {
             {allComplete && (
               <text x="190" y="228" textAnchor="middle" fontSize="40" style={{ userSelect: 'none' }}>🏆</text>
             )}
+
+            {/* Compass */}
             <text x="360" y="430" textAnchor="middle" fontSize="6" fontFamily="'Press Start 2P', monospace"
               fill="rgba(255,255,255,0.25)" style={{ userSelect: 'none' }}>N</text>
+            <text x="375" y="445" textAnchor="middle" fontSize="6" fontFamily="'Press Start 2P', monospace"
+              fill="rgba(255,255,255,0.15)" style={{ userSelect: 'none' }}>E</text>
+            <text x="345" y="445" textAnchor="middle" fontSize="6" fontFamily="'Press Start 2P', monospace"
+              fill="rgba(255,255,255,0.15)" style={{ userSelect: 'none' }}>W</text>
           </svg>
 
           {!selected && (
@@ -386,7 +457,6 @@ export default function WorldMap() {
             borderRadius: 20, padding: '14px 16px', marginBottom: 12,
             position: 'relative', overflow: 'hidden',
           }}>
-            {/* Animated border pulse */}
             <div style={{
               position: 'absolute', inset: -1, borderRadius: 20,
               border: `1px solid ${activeRealm.color}60`,
@@ -419,7 +489,6 @@ export default function WorldMap() {
                 <HeroAvatar cls={cls} size={42} animate={false} />
               </div>
 
-              {/* Mini progress */}
               {(() => { const { done, total } = realmProgress(activeUnitId); return (
                 <div style={{ textAlign: 'center', flexShrink: 0 }}>
                   <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 9, color: activeRealm.color }}>
@@ -483,7 +552,7 @@ export default function WorldMap() {
               const selUnit = UNITS.find(u => u.id === selRealm.id);
               return (
                 <div style={{ marginBottom: 12 }}>
-                  {/* Per-lesson progress dots */}
+                  {/* Per-lesson progress tiles in panel */}
                   {selUnit && (
                     <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: 10 }}>
                       {selUnit.lessons.map((l, idx) => {
@@ -508,7 +577,7 @@ export default function WorldMap() {
                       })}
                     </div>
                   )}
-                  {/* Overall progress bar */}
+                  {/* Progress bar */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                     <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 6, color: 'rgba(255,255,255,0.35)' }}>
                       {selProg.done}/{selProg.total} {t('map.lessons')}
@@ -573,12 +642,12 @@ export default function WorldMap() {
       </div>
 
       <style>{`
-        @keyframes heroMapFloat   { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        @keyframes heroMapFloat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
         @keyframes activeRingPulse { 0%,100%{r:26;opacity:0.6} 50%{r:30;opacity:0.15} }
-        @keyframes panelIn      { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
-        @keyframes mapStarTwinkle { 0%,100%{opacity:.05} 50%{opacity:.28} }
-        @keyframes ctaBorder    { 0%,100%{opacity:.5} 50%{opacity:1} }
-        @keyframes iconFloat    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+        @keyframes panelIn         { 0%{opacity:0;transform:translateY(-6px)} 100%{opacity:1;transform:translateY(0)} }
+        @keyframes mapStarTwinkle  { 0%,100%{opacity:.05} 50%{opacity:.28} }
+        @keyframes ctaBorder       { 0%,100%{opacity:.5} 50%{opacity:1} }
+        @keyframes iconFloat       { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
       `}</style>
     </div>
   );
