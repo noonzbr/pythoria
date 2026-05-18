@@ -506,19 +506,59 @@ function HeroSVGFigure({ x, y, color, size = 20 }) {
   );
 }
 
-// ── Hero avatar for header (CSS div version) ─────────────────────────────────
+// ── Standalone hero SVG (reusable in Profile, headers, etc.) ─────────────────
+export function HeroFigureSVG({ cls, size = 80, animate = false }) {
+  const color = cls?.color || '#58CC02';
+  return (
+    <svg
+      width={size} height={size * 1.3}
+      viewBox="1 5 18 36"
+      style={{
+        filter: `drop-shadow(0 0 ${size / 6}px ${color}99)`,
+        animation: animate ? 'iconFloat 3s ease-in-out infinite' : 'none',
+        overflow: 'visible',
+      }}
+    >
+      <ellipse cx="10" cy="40" rx="6" ry="2" fill="rgba(0,0,0,0.35)" />
+      <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.88" />
+      <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.22)" />
+      <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
+      <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.52)" />
+      <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+      <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+      <line x1="16" y1="20" x2="19" y2="34" stroke={color} strokeWidth="1.1" opacity="0.65" />
+      <circle cx="19" cy="34" r="1.1" fill={color} opacity="0.8" />
+      <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="0.9" />
+    </svg>
+  );
+}
+
+// ── Hero avatar for header (circular frame with character inside) ─────────────
 export function HeroAvatar({ cls, size = 44, animate = false }) {
+  const color = cls?.color || '#58CC02';
   return (
     <div style={{
       width: size, height: size, borderRadius: '50%', flexShrink: 0,
-      background: `radial-gradient(circle at 40% 35%, ${cls.color}30, rgba(0,0,0,0.6))`,
-      border: `2px solid ${cls.color}60`,
+      background: `radial-gradient(circle at 40% 30%, ${color}22, rgba(0,0,0,0.7))`,
+      border: `2px solid ${color}70`,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: size * 0.55,
-      boxShadow: `0 0 12px ${cls.color}40`,
+      overflow: 'hidden',
+      boxShadow: `0 0 14px ${color}50`,
       animation: animate ? 'iconFloat 3s ease-in-out infinite' : 'none',
+      position: 'relative',
     }}>
-      {cls.emoji}
+      <svg
+        width={size * 0.72} height={size * 0.9}
+        viewBox="2 6 16 34"
+        style={{ filter: `drop-shadow(0 0 ${size / 8}px ${color}cc)` }}
+      >
+        <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.9" />
+        <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.2)" />
+        <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
+        <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.5)" />
+        <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+        <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+      </svg>
     </div>
   );
 }

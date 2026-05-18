@@ -201,6 +201,46 @@ export const sounds = {
     noise(0.06, 0.08, 0.05);
   },
 
+  // Hero appearance — triumphant ascending fanfare when Gio appears
+  heroAppears: () => {
+    [261, 330, 392, 523, 659, 784, 1047].forEach((f, i) =>
+      tone(f, 'sine', 0.45, 0.20, i * 0.07)
+    );
+    tone(1047, 'triangle', 0.9, 0.28, 0.52);
+    tone(784,  'sine',     0.5, 0.18, 0.75);
+    noise(0.08, 0.07, 0.08);
+  },
+
+  // Py calls the hero — ancient, warm, mystical chord
+  pyCallsHero: () => {
+    tone(165, 'triangle', 0.7, 0.14);
+    tone(220, 'triangle', 0.6, 0.16, 0.18);
+    tone(330, 'triangle', 0.55, 0.18, 0.40);
+    tone(440, 'sine',     0.45, 0.20, 0.66);
+    tone(554, 'sine',     0.35, 0.16, 0.90);
+    tone(330, 'sine',     0.30, 0.12, 1.20);
+    noise(0.07, 0.04, 0.12);
+  },
+
+  // Quest begins — epic low boom then rising fanfare
+  questBegins: () => {
+    noise(0.18, 0.28);
+    tone(60,  'sawtooth', 0.25, 0.30);
+    tone(80,  'sawtooth', 0.22, 0.24, 0.08);
+    [261, 329, 392].forEach((f, i) => tone(f, 'sawtooth', 0.22, 0.22, 0.18 + i * 0.10));
+    [523, 659, 784, 1047].forEach((f, i) => tone(f, 'square', 0.28, 0.30, 0.52 + i * 0.10));
+    tone(1047, 'sine', 0.55, 0.35, 0.96);
+    noise(0.10, 0.12, 0.50);
+  },
+
+  // Codex shatters — glitch burst + low boom
+  codexShatter: () => {
+    [400,200,600,150,800,100,900].forEach((f, i) => tone(f, 'square', 0.05, 0.22, i * 0.03));
+    noise(0.20, 0.30);
+    tone(60, 'sawtooth', 0.5, 0.32, 0.05);
+    tone(80, 'sawtooth', 0.4, 0.26, 0.12);
+  },
+
   toggleMute: () => { muted = !muted; return muted; },
   isMuted: () => muted,
 };

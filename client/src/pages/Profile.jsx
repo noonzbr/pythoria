@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProgress } from '../hooks/useProgress.js';
+import { useStory } from '../hooks/useStory.js';
 import { UNITS, ACHIEVEMENTS } from '../data/curriculum.js';
+import { CLASSES } from '../data/story.js';
 import { locUnit } from '../utils/loc.js';
+import { HeroFigureSVG } from './Home.jsx';
 
 const LANGUAGES = [
   { code: 'en',   flag: '🇺🇸', label: 'English' },
@@ -12,6 +15,7 @@ const LANGUAGES = [
 
 export default function Profile() {
   const { user, completed, loading, refetch } = useProgress();
+  const { getPlayer } = useStory();
   const { t, i18n } = useTranslation();
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState('');
@@ -19,6 +23,8 @@ export default function Profile() {
 
   if (loading || !user) return null;
 
+  const player = getPlayer();
+  const cls    = CLASSES.find(c => c.id === player.classId) || CLASSES[0];
   const totalLessons = UNITS.reduce((s, u) => s + u.lessons.length, 0);
 
   const earnedAchievements = new Set();
@@ -57,12 +63,23 @@ export default function Profile() {
     <div style={{ maxWidth: 480, margin: '0 auto', padding: '24px 16px 100px' }}>
       {/* Profile Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #58CC02, #45A800)',
-        borderRadius: 24, padding: '28px 24px', marginBottom: 20,
+        background: `linear-gradient(135deg, ${cls.color}cc, ${cls.color}88)`,
+        borderRadius: 24, padding: '24px 24px 20px', marginBottom: 20,
         color: 'white', textAlign: 'center',
-        boxShadow: '0 6px 0 #2D6A00'
+        boxShadow: `0 6px 0 ${cls.color}66, 0 0 40px ${cls.color}30`,
+        position: 'relative', overflow: 'hidden',
       }}>
-        <div style={{ fontSize: 64, marginBottom: 8 }}>🐉</div>
+        {/* Faint class name watermark */}
+        <div style={{
+          position: 'absolute', top: 10, right: 14,
+          fontFamily: "'Press Start 2P', monospace", fontSize: 6,
+          color: 'rgba(255,255,255,0.25)', letterSpacing: 2,
+        }}>{cls.name.toUpperCase()}</div>
+
+        {/* Character figure */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 4 }}>
+          <HeroFigureSVG cls={cls} size={90} animate />
+        </div>
 
         {editingName ? (
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 4 }}>

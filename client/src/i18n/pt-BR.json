@@ -18,31 +18,23 @@
     "panels": [
       {
         "title": null,
-        "text": "Há muito tempo, em um reino além da tela, existia um mundo construído inteiramente em código.\n\nMontanhas declaradas como constantes. Rios fluindo por laços infinitos. A própria vida — uma função, chamada de novo a cada amanhecer.\n\nEste era Pythoria."
-      },
-      {
-        "title": "O CÓDEX PYTHON",
-        "text": "No coração de Pythoria repousava o Códex Python — um antigo tomo de sabedoria infinita, encadernado em cinco Fragmentos sagrados.\n\nCada Fragmento regia uma lei da realidade: Origens, Decisão, Iteração, Criação e Maestria.\n\nEnquanto o Códex permanecesse inteiro, o reino seria eterno."
+        "text": "Um reino além da tela, construído inteiramente em código.\n\nMontanhas declaradas como constantes. Rios fluindo por laços infinitos. A própria vida — uma função, chamada de novo a cada amanhecer.\n\nEste era Pythoria."
       },
       {
         "title": "O SENHOR DOS BUGS",
-        "text": "Ele não tinha nome antes. Apenas um programador — brilhante, obcecado, destruído pela própria ambição.\n\nQuando sua obra-prima falhou com uma exceção fatal, algo dentro dele quebrou junto.\n\nDaquele vazio de raiva, ele se refez.\n\nO Senhor dos Bugs."
+        "text": "Ele foi brilhante uma vez.\n\nUm programador consumido pela ambição — até que sua obra-prima falhou com uma exceção fatal às 3am. Algo dentro dele quebrou junto com ela.\n\nDaquele vazio de raiva, ele estilhaçou o Códex Python. Cinco Fragmentos. Cinco reinos amaldiçoados.\n\nPythoria começou a morrer."
       },
       {
-        "title": "O ESTILHAÇAMENTO",
-        "text": "Em um único toque catastrófico, ele estilhaçou o Códex Python.\n\nCinco Fragmentos espalhados por cinco reinos amaldiçoados:\n\n🌿 Os Pântanos de Sintaxe\n🏛️ O Labirinto da Lógica\n🌀 A Floresta Infinita\n🏰 A Torre do Vazio\n🔥 O Domínio do Dragão\n\nPythoria começou a se desfazer."
-      },
-      {
-        "title": "O OBSERVADOR",
-        "text": "Do seu trono na beira do Códex estilhaçado, ele observou os Fragmentos se espalharem.\n\nBem.\n\nDeixe o Dragão procurar. Que ela encontre seu pequeno herói. Ele havia esmagado mil campeões antes. Cada um deles havia chegado com esperança nos olhos.\n\nEle havia apreciado cada derrota.\n\n\"Venha então,\" ele sussurrou para ninguém.\n\n\"Me mostre o que você tem.\""
+        "title": "O ESCOLHIDO",
+        "text": "Em algum lugar além da tela, um herói existia.\n\nAinda sem saber. Ainda sem estar pronto.\n\nMas escolhido."
       },
       {
         "title": null,
-        "text": "\"Eu busquei através de mil erros de execução para te encontrar.\"\n\nA voz vinha de todos os lugares e de lugar nenhum. Antiga. Cansada. Esperançosa.\n\n\"Eu sou Py — o último Dragão Python. Guardião do Códex desde antes de seu mundo ter computadores.\"\n\n\"E você... você tem o dom. A habilidade de pensar em lógica pura. De dobrar o código à sua vontade.\"\n\n\"Você aceitará o chamado?\""
+        "text": "\"Eu busquei através de mil erros de execução para te encontrar.\"\n\nPy — o último Dragão Python, Guardião do Códex — havia esperado desde o Estilhaçamento.\n\n\"Você tem o dom. A habilidade de pensar em lógica pura. De dobrar o código à sua vontade.\n\nCinco Fragmentos. Cinco reinos. Pythoria está morrendo.\n\nVocê aceitará o chamado?\""
       },
       {
         "title": "SUA MISSÃO",
-        "text": "Cinco Fragmentos. Cinco reinos. Cinco guardiões entre a ruína e a salvação.\n\nO Senhor dos Bugs fica mais forte a cada segundo que passa. Pythoria se apaga.\n\nVocê é a única esperança.\n\nArmado(a) apenas com seu engenho e o poder do Python — sua lenda começa agora."
+        "text": "Cinco Fragmentos. Cinco reinos. Cinco guardiões entre a ruína e a salvação.\n\nO Senhor dos Bugs está assistindo.\n\nEle não tem medo.\n\nFaça-o temer.\n\nArmado(a) apenas com Python e sua mente — sua lenda começa agora."
       }
     ]
   },

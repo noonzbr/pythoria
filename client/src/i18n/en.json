@@ -18,31 +18,23 @@
     "panels": [
       {
         "title": null,
-        "text": "Long ago, in a realm beyond the screen, there existed a world built entirely from code.\n\nMountains declared as constants. Rivers flowing through endless for-loops. Life itself — a function, called anew each dawn.\n\nThis was Pythoria."
-      },
-      {
-        "title": "THE PYTHON CODEX",
-        "text": "At the heart of Pythoria rested the Python Codex — an ancient tome of infinite wisdom, bound in five sacred Fragments.\n\nEach Fragment governed a law of reality: Beginnings, Decision, Iteration, Creation, and Mastery.\n\nAs long as the Codex remained whole, the realm was eternal."
+        "text": "A realm beyond the screen, built entirely from code.\n\nMountains declared as constants. Rivers flowing through endless for-loops. Life itself — a function, called anew each dawn.\n\nThis was Pythoria."
       },
       {
         "title": "THE BUG LORD",
-        "text": "He had no name once. Just a coder — brilliant, obsessed, undone by his own ambition.\n\nWhen his magnum opus crashed with a fatal exception, something inside him broke along with it.\n\nFrom that void of rage, he remade himself.\n\nThe Bug Lord."
+        "text": "He was brilliant once.\n\nA coder consumed by ambition — until his magnum opus crashed with a fatal exception at 3am. Something inside him broke along with it.\n\nFrom that void of rage, he shattered the Python Codex. Five Fragments. Five cursed realms.\n\nPythoria began to die."
       },
       {
-        "title": "THE SHATTERING",
-        "text": "In one catastrophic keystroke, he shattered the Python Codex.\n\nFive Fragments scattered to five cursed realms:\n\n🌿 The Syntax Swamps\n🏛️ The Logic Labyrinth\n🌀 The Endless Forest\n🏰 The Void Tower\n🔥 The Dragon's Domain\n\nPythoria began to unravel."
-      },
-      {
-        "title": "THE WATCHER",
-        "text": "From his throne at the edge of the shattered Codex, he watched the Fragments scatter.\n\nGood.\n\nLet the Dragon search. Let her find her little hero. He had crushed a thousand champions before. Every one of them had arrived with hope in their eyes.\n\nHe had enjoyed every single defeat.\n\n\"Come then,\" he whispered to no one.\n\n\"Show me what you've got.\""
+        "title": "THE CHOSEN ONE",
+        "text": "Somewhere beyond the screen, a hero existed.\n\nNot yet aware. Not yet ready.\n\nBut chosen."
       },
       {
         "title": null,
-        "text": "\"I have searched across a thousand runtime errors to find you.\"\n\nThe voice came from everywhere and nowhere. Ancient. Tired. Hopeful.\n\n\"I am Py — the last Python Dragon. Guardian of the Codex since before your world had computers.\"\n\n\"And you... you have the gift. The ability to think in pure logic. To bend code to your will.\"\n\n\"Will you answer the call?\""
+        "text": "\"I have searched a thousand runtime errors to find you.\"\n\nPy — the last Python Dragon, Guardian of the Codex — had been waiting since the Shattering.\n\n\"You have the gift. The ability to think in pure logic. To bend code to your will.\n\nFive Fragments. Five realms. Pythoria is dying.\n\nWill you answer the call?\""
       },
       {
         "title": "YOUR QUEST",
-        "text": "Five Fragments. Five realms. Five guardians standing between ruin and salvation.\n\nThe Bug Lord grows stronger with every passing second. Pythoria fades.\n\nYou are its only hope.\n\nArmed with nothing but wit and the power of Python — your legend begins now."
+        "text": "Five Fragments. Five realms. Five guardians between ruin and salvation.\n\nThe Bug Lord is watching.\n\nHe is not afraid.\n\nMake him afraid.\n\nArmed with nothing but Python and your mind — your legend begins now."
       }
     ]
   },
