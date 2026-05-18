@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { sounds } from '../utils/sounds.js';
+import { HeroFigureSVG } from './Home.jsx';
+import { useStory } from '../hooks/useStory.js';
+import { CLASSES } from '../data/story.js';
 
 const W = 10, H = 15, CELL = 30;
 const GOLD  = '#facc15';
@@ -73,6 +76,9 @@ export default function TetrisBreak() {
   const navigate  = useNavigate();
   const location  = useLocation();
   const returnTo  = location.state?.returnTo || '/learn';
+  const { getPlayer } = useStory();
+  const player = getPlayer();
+  const cls = CLASSES.find(c => c.id === player?.classId) || CLASSES[0];
 
   const [phase, setPhase] = useState('intro');
   const [introStep, setIntroStep] = useState(0);
@@ -504,7 +510,12 @@ export default function TetrisBreak() {
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12,
               padding: '0 16px',
             }}>
-              <div style={{ fontSize: 40, animation: 'dragonFloat 2.5s ease-in-out infinite', filter: 'drop-shadow(0 0 20px #cc00ff)' }}>🐉</div>
+              <div style={{ display: 'flex', gap: 16, alignItems: 'flex-end' }}>
+                <div style={{ fontSize: 40, animation: 'dragonFloat 2.5s ease-in-out infinite', filter: 'drop-shadow(0 0 20px #cc00ff)' }}>🐉</div>
+                <div style={{ animation: 'dragonFloat 2.5s ease-in-out 0.8s infinite' }}>
+                  <HeroFigureSVG cls={cls} size={48} />
+                </div>
+              </div>
 
               {/* How to earn hearts — the main message */}
               <div style={{
@@ -588,6 +599,19 @@ export default function TetrisBreak() {
             <div style={{ fontSize: 5, color: 'rgba(204,0,255,0.8)', letterSpacing: 1, marginTop: 2 }}>PY</div>
           </div>
 
+          <div style={{
+            background: `${cls.color}12`, border: `1px solid ${cls.color}40`,
+            borderRadius: 10, padding: '8px 4px', textAlign: 'center',
+          }}>
+            <div style={{
+              display: 'flex', justifyContent: 'center',
+              animation: phase === 'playing' ? 'gioPlay 2.5s ease-in-out infinite' : 'dragonFloat 2.5s ease-in-out infinite',
+            }}>
+              <HeroFigureSVG cls={cls} size={36} />
+            </div>
+            <div style={{ fontSize: 5, color: `${cls.color}cc`, letterSpacing: 1, marginTop: 2 }}>GIO</div>
+          </div>
+
           <div style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 4px' }}>
             <div style={{ fontSize: 5, color: 'rgba(255,255,255,0.3)', marginBottom: 5, letterSpacing: 1, textAlign: 'center' }}>NEXT</div>
             <div style={{ display: 'grid', gridTemplateColumns: `repeat(4, ${CELL * 0.65}px)`, gap: 1, justifyContent: 'center' }}>
@@ -636,6 +660,7 @@ export default function TetrisBreak() {
         @keyframes heartFlashBg { 0%{background:rgba(239,68,68,0)} 20%{background:rgba(239,68,68,0.14)} 100%{background:rgba(239,68,68,0)} }
         @keyframes heartPop     { 0%{opacity:0;transform:scale(0.2)} 40%{opacity:1;transform:scale(1.4)} 70%{transform:scale(0.9)} 100%{opacity:0;transform:scale(1.1)} }
         @keyframes fadeIn       { 0%{opacity:0} 100%{opacity:1} }
+        @keyframes gioPlay      { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-5px) scale(1.04)} }
       `}</style>
     </div>
   );

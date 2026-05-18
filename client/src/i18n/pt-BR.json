@@ -127,7 +127,7 @@
     "hpLabel": "SEU HP",
     "bossLabel": "CHEFE",
     "types": {
-      "multiple_choice": "🎯 Múltiplaescolha",
+      "multiple_choice": "🎯 Múltipla Escolha",
       "fill_blank": "✏️ Preencher",
       "fix_bug": "🐛 Corrigir Bug",
       "output_predict": "🔮 Prever"

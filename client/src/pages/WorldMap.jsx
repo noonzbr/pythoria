@@ -321,7 +321,16 @@ export default function WorldMap() {
 
             {!allComplete && (
               <g style={{ animation: 'heroMapFloat 2.5s ease-in-out infinite' }}>
-                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 46} color={cls.color} />
+                {/* Glow halo under Gio */}
+                <ellipse cx={activeRealm.x} cy={activeRealm.y - 46} rx={14} ry={4}
+                  fill={cls.color} opacity={0.22} />
+                <MapHeroFigure x={activeRealm.x} y={activeRealm.y - 64} color={cls.color} scale={1.5} />
+                {/* Name tag */}
+                <rect x={activeRealm.x - 14} y={activeRealm.y - 90} width={28} height={11} rx={3}
+                  fill={cls.color} opacity={0.9} />
+                <text x={activeRealm.x} y={activeRealm.y - 82} textAnchor="middle"
+                  fontSize="5.5" fontFamily="'Press Start 2P', monospace" fill="#000"
+                  style={{ userSelect: 'none' }}>{player.name || 'GIO'}</text>
               </g>
             )}
             {allComplete && (
@@ -360,7 +369,7 @@ export default function WorldMap() {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
               <div style={{
-                fontSize: 30, flexShrink: 0,
+                fontSize: 28, flexShrink: 0,
                 filter: `drop-shadow(0 0 10px ${activeRealm.color}80)`,
                 animation: 'iconFloat 3s ease-in-out infinite',
               }}>{activeRealm.emoji}</div>
@@ -377,6 +386,10 @@ export default function WorldMap() {
                     {t('home.recoverFragment', { fragment: lActiveIntro.fragmentName })}
                   </div>
                 )}
+              </div>
+
+              <div style={{ flexShrink: 0, animation: 'heroMapFloat 2.5s ease-in-out infinite' }}>
+                <HeroAvatar cls={cls} size={42} animate={false} />
               </div>
 
               {/* Mini progress */}
@@ -514,8 +527,8 @@ export default function WorldMap() {
   );
 }
 
-function MapHeroFigure({ x, y, color }) {
-  const s = 22 / 20;
+function MapHeroFigure({ x, y, color, scale = 1 }) {
+  const s = (22 / 20) * scale;
   return (
     <g transform={`translate(${x - 10 * s}, ${y - 20 * s}) scale(${s})`}>
       <ellipse cx="10" cy="40" rx="7" ry="2.5" fill="rgba(0,0,0,0.4)" />

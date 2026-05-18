@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { UNITS } from '../data/curriculum.js';
 import { sounds } from '../utils/sounds.js';
 import { locLesson, locMission } from '../utils/loc.js';
+import { HeroFigureSVG } from './Home.jsx';
+import { useStory } from '../hooks/useStory.js';
+import { CLASSES } from '../data/story.js';
 
 const UNIT_COLORS = { 1:'#58CC02', 2:'#1CB0F6', 3:'#FF9600', 4:'#CE82FF', 5:'#FF4B4B' };
 const UNIT_DARK   = { 1:'#2d6600', 2:'#005f8a', 3:'#7a4500', 4:'#6b3c8a', 5:'#8a1a1a' };
@@ -25,6 +28,9 @@ export default function LessonLearn() {
   const missions = lesson?.learnMissions || [];
 
   const { t } = useTranslation();
+  const { getPlayer } = useStory();
+  const player = getPlayer();
+  const cls = CLASSES.find(c => c.id === player?.classId) || CLASSES[0];
   const color      = UNIT_COLORS[uid] || '#58CC02';
   const darkColor  = UNIT_DARK[uid]   || '#1a4000';
   const enemyPool  = ENEMY_POOL[uid]  || ['👾'];
@@ -110,6 +116,16 @@ export default function LessonLearn() {
         transform: 'scaleX(-1)',
       }}>{enemySprite}</div>
 
+      {/* Gio — training beside you */}
+      <div style={{
+        position: 'absolute', top: 52, left: -6, opacity: 0.13,
+        pointerEvents: 'none', zIndex: 1,
+        animation: 'gioTrain 3s ease-in-out infinite',
+        filter: 'blur(0.5px)',
+      }}>
+        <HeroFigureSVG cls={cls} size={72} />
+      </div>
+
       {/* ── HEADER ─────────────────────────────────────────────────────── */}
       <div style={{
         padding: '14px 16px 10px', zIndex: 10, flexShrink: 0,
@@ -190,7 +206,7 @@ export default function LessonLearn() {
         transition: 'opacity 0.25s ease, transform 0.25s ease',
       }}>
         {done ? (
-          <AllDoneScreen uid={uid} lid={lid} lesson={lesson} color={color} navigate={navigate} t={t} />
+          <AllDoneScreen uid={uid} lid={lid} lesson={lesson} color={color} navigate={navigate} t={t} cls={cls} />
         ) : (
           <MissionRouter
             mission={currentMission} color={color} darkColor={darkColor}
@@ -210,6 +226,10 @@ export default function LessonLearn() {
         @keyframes enemyWatch {
           0%,100%{transform:scaleX(-1) translateY(0) rotate(-2deg)}
           50%{transform:scaleX(-1) translateY(-8px) rotate(2deg)}
+        }
+        @keyframes gioTrain {
+          0%,100%{transform:translateY(0) rotate(1deg)}
+          50%{transform:translateY(-6px) rotate(-1deg)}
         }
         @keyframes starTwinkle { 0%,100%{opacity:0.1} 50%{opacity:0.6} }
         @keyframes realmFloat {
@@ -760,7 +780,7 @@ function ArrangeCode({ mission, color, onAdvance, onWrong, t }) {
 }
 
 // ─── All Done ──────────────────────────────────────────────────────────────────
-function AllDoneScreen({ uid, lid, lesson, color, navigate, t }) {
+function AllDoneScreen({ uid, lid, lesson, color, navigate, t, cls }) {
   const [particles] = useState(() =>
     Array.from({ length: 32 }, (_, i) => {
       const angle = (i / 32) * Math.PI * 2;
@@ -799,10 +819,11 @@ function AllDoneScreen({ uid, lid, lesson, color, navigate, t }) {
       </div>
 
       <div style={{
-        fontSize: 80, position: 'relative', zIndex: 2,
+        position: 'relative', zIndex: 2,
         animation: 'introPop 0.7s cubic-bezier(.2,1.6,.4,1)',
-        filter: `drop-shadow(0 0 28px ${color}) drop-shadow(0 0 10px white)`,
-      }}>⚔️</div>
+      }}>
+        <HeroFigureSVG cls={cls} size={90} animate />
+      </div>
 
       <div style={{
         fontFamily: "'Press Start 2P', monospace",

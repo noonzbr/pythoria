@@ -7,6 +7,7 @@ import { useProgress } from '../hooks/useProgress.js';
 import { useStory } from '../hooks/useStory.js';
 import { sounds } from '../utils/sounds.js';
 import { locLesson } from '../utils/loc.js';
+import { HeroFigureSVG } from './Home.jsx';
 
 // ─── Enemy definitions ────────────────────────────────────────────────────────
 const ENEMIES = {
@@ -139,6 +140,7 @@ export default function Lesson() {
   const dmgPerHit  = Math.floor(enemyDef.hp / exercises.length);
 
   const player = getPlayer();
+  const cls = CLASSES.find(c => c.id === player?.classId) || CLASSES[0];
   const playerSprite = CLASS_SPRITES[(player?.class || 0) % CLASS_SPRITES.length];
 
   const [introPhase, setIntroPhase]     = useState(true);
@@ -399,7 +401,9 @@ export default function Lesson() {
       <div style={{ padding: '2px 16px 8px', display: 'flex', flexDirection: 'column', gap: 5, zIndex: 10 }}>
         {/* Player HP */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontSize: 12, minWidth: 20, textAlign: 'center' }}>{playerSprite}</span>
+          <div style={{ minWidth: 20, display: 'flex', justifyContent: 'center' }}>
+            <HeroFigureSVG cls={cls} size={16} />
+          </div>
           <div style={{ flex: 1, background: 'rgba(0,0,0,0.5)', borderRadius: 99, height: 14, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', position: 'relative' }}>
             <div style={{
               background: playerHpPct > 50 ? 'linear-gradient(90deg,#22c55e,#4ade80)' : playerHpPct > 25 ? 'linear-gradient(90deg,#f59e0b,#fbbf24)' : 'linear-gradient(90deg,#dc2626,#f87171)',
@@ -465,13 +469,13 @@ export default function Lesson() {
           }} />
         )}
 
-        {/* Player sprite */}
+        {/* Player sprite — Gio */}
         <div style={{
-          position: 'absolute', left: '12%', bottom: '22%',
+          position: 'absolute', left: '8%', bottom: '10%',
           textAlign: 'center',
         }}>
           <div style={{
-            fontSize: 52, lineHeight: 1, display: 'inline-block',
+            display: 'inline-block',
             animation: shakePlayer
               ? 'shakeAnim 0.4s ease'
               : phase === 'player-attack'
@@ -479,8 +483,10 @@ export default function Lesson() {
                 : 'playerFloat 3s ease-in-out infinite',
             filter: shakePlayer
               ? 'brightness(0.3) sepia(1) hue-rotate(-30deg)'
-              : 'drop-shadow(0 0 10px rgba(255,255,255,0.25))',
-          }}>{playerSprite}</div>
+              : 'none',
+          }}>
+            <HeroFigureSVG cls={cls} size={56} />
+          </div>
 
           {/* Player float damage */}
           {floatDmg?.side === 'player' && (
