@@ -13,16 +13,31 @@ export const CONTENT_I18N = {
 
     // ── Lesson titles ───────────────────────────────────────────────────────────
     'l1.1.title': 'Olá, Mundo!',           'l1.2.title': 'Variáveis',            'l1.3.title': 'Tipos de Dados',
+    'l1.4.title': 'Strings e Entrada',
     'l2.1.title': 'Declarações if',        'l2.2.title': 'Comparações',          'l2.3.title': 'Cadeias elif',
     'l3.1.title': 'Laços for',             'l3.2.title': 'Laços while',          'l3.3.title': 'Break e Continue',
     'l4.1.title': 'Definindo Funções',     'l4.2.title': 'Parâmetros e Retorno',
     'l5.1.title': 'Listas',                'l5.2.title': 'Dicionários',
 
     // ── Unit 1, Lesson 1 ────────────────────────────────────────────────────────
-    'm1.1.0.title': 'A Função print()',
-    'm1.1.0.text': 'Toda jornada Python começa com print(). Ele envia uma mensagem para a tela — como lançar seu primeiro feitiço!\n\nColoque o texto entre aspas dentro dos parênteses.',
-    'm1.1.1.question': 'Qual linha imprime corretamente "Hello" na tela?',
-    'm1.1.2.question': 'Coloque estas linhas na ordem correta para imprimir uma saudação:',
+    'm1.1.0.title': 'O Que é Programação?',
+    'm1.1.0.text': 'Um programa é um conjunto de instruções que você dá ao computador.\n\nComputadores são incrivelmente rápidos — mas completamente literais. Eles fazem EXATAMENTE o que você manda. Nada mais, nada menos.\n\nProgramar é a arte de escrever as instruções certas. Em Pythoria, cada feitiço que você lança É um programa.',
+    'm1.1.1.title': 'O Que é Python?',
+    'm1.1.1.text': 'Python é uma das linguagens de programação mais populares do mundo.\n\nFoi criada para ser fácil de ler — quase como inglês simples. Usada por iniciantes E profissionais no Google, NASA e Netflix.\n\nO Códex Python de Pythoria foi escrito inteiramente nela. Hora de aprender sua linguagem.',
+    'm1.1.2.title': 'Seu Primeiro Feitiço: print()',
+    'm1.1.2.text': 'print() envia uma mensagem para a tela — como lançar seu primeiro feitiço!\n\nColoque texto entre aspas dentro dos parênteses. Python é sensível a maiúsculas: print() funciona, Print() não funciona.',
+    'm1.1.3.question': 'Qual linha imprime corretamente "Hello" na tela?',
+    'm1.1.4.question': 'Coloque estas linhas na ordem correta para imprimir uma saudação:',
+
+    // ── Unit 1, Lesson 4 ────────────────────────────────────────────────────────
+    'm1.4.0.title': 'Trabalhando com Strings',
+    'm1.4.0.text': 'Strings são texto. Você pode uni-las com + (concatenação), repeti-las com * e usar métodos para transformá-las.\n\nf-strings permitem inserir variáveis diretamente no texto — super útil!',
+    'm1.4.1.title': 'Recebendo Entrada do Usuário',
+    'm1.4.1.text': 'input() pausa o programa e aguarda o usuário digitar algo. O resultado é sempre uma string.\n\nUse int() ou float() para convertê-la em número, se necessário.',
+    'm1.4.2.question': 'O que o operador + faz com strings?',
+    'm1.4.2.options': ['Soma números', 'Une strings', 'Causa um erro', 'Multiplica texto'],
+    'm1.4.3.question': 'Combine cada método de string com o que ele faz:',
+    'm1.4.3.pairs': [{ left: '"hello".upper()', right: '"HELLO"' }, { left: '"HELLO".lower()', right: '"hello"' }, { left: 'len("Py")', right: '2' }],
 
     // ── Unit 1, Lesson 2 ────────────────────────────────────────────────────────
     'm1.2.0.title': 'Variáveis — Caixas Nomeadas',
@@ -147,16 +162,31 @@ export const CONTENT_I18N = {
 
     // ── Lesson titles ───────────────────────────────────────────────────────────
     'l1.1.title': '¡Hola, Mundo!',         'l1.2.title': 'Variables',            'l1.3.title': 'Tipos de Datos',
+    'l1.4.title': 'Strings y Entrada',
     'l2.1.title': 'Sentencias if',         'l2.2.title': 'Comparaciones',        'l2.3.title': 'Cadenas elif',
     'l3.1.title': 'Bucles for',            'l3.2.title': 'Bucles while',         'l3.3.title': 'Break y Continue',
     'l4.1.title': 'Definiendo Funciones',  'l4.2.title': 'Parámetros y Retorno',
     'l5.1.title': 'Listas',                'l5.2.title': 'Diccionarios',
 
     // ── Unit 1, Lesson 1 ────────────────────────────────────────────────────────
-    'm1.1.0.title': 'La Función print()',
-    'm1.1.0.text': 'Todo viaje en Python empieza con print(). Envía un mensaje a la pantalla — ¡como lanzar tu primer hechizo!\n\nPon el texto entre comillas dentro de los paréntesis.',
-    'm1.1.1.question': '¿Qué línea imprime correctamente "Hello" en la pantalla?',
-    'm1.1.2.question': 'Pon estas líneas en el orden correcto para imprimir un saludo:',
+    'm1.1.0.title': '¿Qué es la Programación?',
+    'm1.1.0.text': 'Un programa es un conjunto de instrucciones que le das a una computadora.\n\nLas computadoras son increíblemente rápidas — pero completamente literales. Hacen EXACTAMENTE lo que les dices. Nada más, nada menos.\n\nProgramar es el arte de escribir las instrucciones correctas. En Pythoria, cada hechizo que lanzas ES un programa.',
+    'm1.1.1.title': '¿Qué es Python?',
+    'm1.1.1.text': 'Python es uno de los lenguajes de programación más populares del mundo.\n\nFue diseñado para ser fácil de leer — casi como inglés simple. Usado por principiantes Y profesionales en Google, NASA y Netflix.\n\nEl Códex Python de Pythoria está escrito completamente en él. Es hora de aprender su lenguaje.',
+    'm1.1.2.title': 'Tu Primer Hechizo: print()',
+    'm1.1.2.text': 'print() envía un mensaje a la pantalla — ¡como lanzar tu primer hechizo!\n\nPon texto entre comillas dentro de los paréntesis. Python distingue mayúsculas y minúsculas: print() funciona, Print() no.',
+    'm1.1.3.question': '¿Qué línea imprime correctamente "Hello" en la pantalla?',
+    'm1.1.4.question': 'Pon estas líneas en el orden correcto para imprimir un saludo:',
+
+    // ── Unit 1, Lesson 4 ────────────────────────────────────────────────────────
+    'm1.4.0.title': 'Trabajando con Strings',
+    'm1.4.0.text': 'Las strings son texto. Puedes unirlas con + (concatenación), repetirlas con * y usar métodos para transformarlas.\n\n¡Las f-strings te permiten insertar variables directamente en el texto — muy útil!',
+    'm1.4.1.title': 'Recibiendo Entrada del Usuario',
+    'm1.4.1.text': 'input() pausa el programa y espera a que el usuario escriba algo. El resultado siempre es una string.\n\nUsa int() o float() para convertirlo a número si es necesario.',
+    'm1.4.2.question': '¿Qué hace el operador + con las strings?',
+    'm1.4.2.options': ['Suma números', 'Une strings', 'Causa un error', 'Multiplica texto'],
+    'm1.4.3.question': 'Relaciona cada método de string con lo que hace:',
+    'm1.4.3.pairs': [{ left: '"hello".upper()', right: '"HELLO"' }, { left: '"HELLO".lower()', right: '"hello"' }, { left: 'len("Py")', right: '2' }],
 
     // ── Unit 1, Lesson 2 ────────────────────────────────────────────────────────
     'm1.2.0.title': 'Variables — Cajas con Nombre',
