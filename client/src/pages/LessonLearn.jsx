@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UNITS } from '../data/curriculum.js';
 import { sounds } from '../utils/sounds.js';
+import { locLesson, locMission } from '../utils/loc.js';
 
 const UNIT_COLORS = { 1:'#58CC02', 2:'#1CB0F6', 3:'#FF9600', 4:'#CE82FF', 5:'#FF4B4B' };
 const UNIT_DARK   = { 1:'#2d6600', 2:'#005f8a', 3:'#7a4500', 4:'#6b3c8a', 5:'#8a1a1a' };
@@ -64,7 +65,7 @@ export default function LessonLearn() {
     setTimeout(() => setScreenShake(false), 400);
   };
 
-  const currentMission = missions[missionIdx];
+  const currentMission = locMission(uid, lid, missionIdx, missions[missionIdx]);
   const progress = (missionIdx / missions.length) * 100;
 
   const MISSION_META = {
@@ -130,7 +131,7 @@ export default function LessonLearn() {
               textShadow: `0 0 10px ${color}`,
             }}>{t('learn.header')}</div>
             <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontWeight: 700, marginTop: 2 }}>
-              {lesson.icon} {lesson.title}
+              {lesson.icon} {locLesson(uid, lesson).title}
             </div>
           </div>
 

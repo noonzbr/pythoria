@@ -6,6 +6,7 @@ import { UNIT_OUTROS, CLASSES } from '../data/story.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { useStory } from '../hooks/useStory.js';
 import { sounds } from '../utils/sounds.js';
+import { locLesson } from '../utils/loc.js';
 
 // ─── Enemy definitions ────────────────────────────────────────────────────────
 const ENEMIES = {
@@ -997,6 +998,7 @@ function OutroBurst({ color }) {
 
 // ─── Battle intro overlay ──────────────────────────────────────────────────────
 function IntroOverlay({ unit, enemy, lesson }) {
+  const lLesson = locLesson(unit.id, lesson);
   return (
     <div style={{
       position: 'absolute', inset: 0, zIndex: 80,
@@ -1028,7 +1030,7 @@ function IntroOverlay({ unit, enemy, lesson }) {
         color: 'rgba(255,255,255,0.45)', fontSize: 11, fontWeight: 700,
         animation: 'introSlide 0.4s ease-out 0.5s both',
       }}>
-        {lesson.title}
+        {lLesson.title}
       </div>
     </div>
   );

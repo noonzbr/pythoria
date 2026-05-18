@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProgress } from '../hooks/useProgress.js';
 import { UNITS, ACHIEVEMENTS } from '../data/curriculum.js';
+import { locUnit } from '../utils/loc.js';
 
 const LANGUAGES = [
   { code: 'en',   flag: '🇺🇸', label: 'English' },
@@ -192,7 +193,7 @@ export default function Profile() {
           return (
             <div key={unit.id} style={{ marginBottom: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                <span style={{ fontWeight: 800, fontSize: 14 }}>{unit.icon} {unit.title}</span>
+                <span style={{ fontWeight: 800, fontSize: 14 }}>{unit.icon} {locUnit(unit).title}</span>
                 <span style={{ fontWeight: 700, fontSize: 13, color: unit.color }}>{pct}%</span>
               </div>
               <div style={{ background: 'var(--border)', borderRadius: 99, height: 8, overflow: 'hidden' }}>

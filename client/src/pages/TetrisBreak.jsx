@@ -1,21 +1,28 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { sounds } from '../utils/sounds.js';
 
 const W = 10, H = 20, CELL = 26;
+const GOLD   = '#facc15';
+const GOLD2  = '#f59e0b';
+const DARK   = '#92400e';
+const BG     = 'linear-gradient(180deg, #1a0e00 0%, #2d1800 50%, #1a0e00 100%)';
 
 const PIECES = {
-  I: { cells: [[0,1],[1,1],[2,1],[3,1]], color: '#00e5ff' },
-  O: { cells: [[0,0],[1,0],[0,1],[1,1]], color: '#ffea00' },
-  T: { cells: [[1,0],[0,1],[1,1],[2,1]], color: '#aa00ff' },
-  S: { cells: [[1,0],[2,0],[0,1],[1,1]], color: '#00e676' },
-  Z: { cells: [[0,0],[1,0],[1,1],[2,1]], color: '#ff1744' },
-  J: { cells: [[0,0],[0,1],[1,1],[2,1]], color: '#2979ff' },
-  L: { cells: [[2,0],[0,1],[1,1],[2,1]], color: '#ff9100' },
+  I: { cells: [[0,1],[1,1],[2,1],[3,1]], color: '#facc15' },
+  O: { cells: [[0,0],[1,0],[0,1],[1,1]], color: '#fbbf24' },
+  T: { cells: [[1,0],[0,1],[1,1],[2,1]], color: '#f97316' },
+  S: { cells: [[1,0],[2,0],[0,1],[1,1]], color: '#fb923c' },
+  Z: { cells: [[0,0],[1,0],[1,1],[2,1]], color: '#fdba74' },
+  J: { cells: [[0,0],[0,1],[1,1],[2,1]], color: '#fcd34d' },
+  L: { cells: [[2,0],[0,1],[1,1],[2,1]], color: '#fde68a' },
 };
 const PKS = Object.keys(PIECES);
 const SPEEDS = [800, 700, 580, 470, 370, 280, 200, 140, 100, 70];
 const PTS    = [0, 100, 300, 500, 800];
+const HEARTS_PER_LINES = 5;
+const MAX_SESSION_HEARTS = 3;
 
 function randPiece() {
   const k = PKS[Math.floor(Math.random() * PKS.length)];
@@ -59,26 +66,32 @@ function emptyBoard() {
   return Array.from({ length: H }, () => Array(W).fill(null));
 }
 
-function ctrlBtn(color) {
-  return {
-    background: `${color}18`, border: `2px solid ${color}55`,
-    color, borderRadius: 10, padding: '14px 0', width: 58,
-    fontSize: 13, fontFamily: "'Press Start 2P', monospace",
-    cursor: 'pointer', boxShadow: `0 4px 0 ${color}33`,
-    userSelect: 'none', WebkitUserSelect: 'none',
-    touchAction: 'manipulation', flexShrink: 0,
-  };
+async function postAddHearts(amount) {
+  try {
+    await fetch('/api/progress/add-hearts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }),
+    });
+  } catch {}
 }
 
 export default function TetrisBreak() {
-  const navigate  = useNavigate();
-  const location  = useLocation();
-  const returnTo  = location.state?.returnTo || '/learn';
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useTranslation();
+  const returnTo = location.state?.returnTo || '/learn';
 
-  const g   = useRef({ board: emptyBoard(), cur: null, next: randPiece(), score: 0, lines: 0, level: 0, phase: 'idle' });
+  const g   = useRef({ board: emptyBoard(), cur: null, next: randPiece(), score: 0, lines: 0, level: 0, phase: 'idle', heartsEarned: 0, prevHeartThreshold: 0 });
   const tmr = useRef(null);
   const [, redraw] = useState(0);
+  const [heartFlash, setHeartFlash] = useState(false);
   const tick = () => redraw(n => n + 1);
+
+  const flashHeart = () => {
+    setHeartFlash(true);
+    setTimeout(() => setHeartFlash(false), 900);
+  };
 
   const spawn = () => {
     const p = { ...g.current.next, x: 3, y: 0, cells: g.current.next.cells.map(c => [...c]) };
@@ -97,7 +110,20 @@ export default function TetrisBreak() {
     s.board  = swept;
     s.lines += n;
     s.score += PTS[n] * (s.level + 1);
-    if (n > 0) { sounds.correct?.(); if (n === 4) sounds.victory?.(); }
+
+    if (n > 0) {
+      sounds.correct?.();
+      if (n === 4) sounds.victory?.();
+
+      // Heart reward: every HEARTS_PER_LINES lines cleared
+      const newThreshold = Math.floor(s.lines / HEARTS_PER_LINES);
+      if (newThreshold > s.prevHeartThreshold && s.heartsEarned < MAX_SESSION_HEARTS) {
+        s.heartsEarned = Math.min(MAX_SESSION_HEARTS, s.heartsEarned + (newThreshold - s.prevHeartThreshold));
+        s.prevHeartThreshold = newThreshold;
+        flashHeart();
+      }
+    }
+
     const lv = Math.min(9, Math.floor(s.lines / 10));
     if (lv > s.level) {
       s.level = lv;
@@ -117,7 +143,7 @@ export default function TetrisBreak() {
   };
 
   const startGame = () => {
-    g.current = { board: emptyBoard(), cur: null, next: randPiece(), score: 0, lines: 0, level: 0, phase: 'playing' };
+    g.current = { board: emptyBoard(), cur: null, next: randPiece(), score: 0, lines: 0, level: 0, phase: 'playing', heartsEarned: 0, prevHeartThreshold: 0 };
     spawn();
     clearInterval(tmr.current);
     tmr.current = setInterval(gravity, SPEEDS[0]);
@@ -151,6 +177,18 @@ export default function TetrisBreak() {
     tick();
   };
 
+  const exitGame = async () => {
+    clearInterval(tmr.current);
+    const earned = g.current.heartsEarned;
+    if (earned > 0) await postAddHearts(earned);
+    navigate(returnTo);
+  };
+
+  const skipGame = async () => {
+    clearInterval(tmr.current);
+    navigate(returnTo);
+  };
+
   useEffect(() => {
     const onKey = e => {
       if (['ArrowLeft','ArrowRight','ArrowDown','ArrowUp','Space'].includes(e.code)) e.preventDefault();
@@ -177,7 +215,7 @@ export default function TetrisBreak() {
     s.cur.cells.forEach(([cx, cy]) => {
       const ny = cy + gy;
       if (ny >= 0 && ny < H && !display[ny][cx + s.cur.x])
-        display[ny][cx + s.cur.x] = s.cur.color + '30';
+        display[ny][cx + s.cur.x] = s.cur.color + '28';
     });
     s.cur.cells.forEach(([cx, cy]) => {
       const ny = cy + s.cur.y;
@@ -185,52 +223,107 @@ export default function TetrisBreak() {
     });
   }
 
-  // Next piece preview (4×4)
   const nextGrid = Array.from({ length: 4 }, () => Array(4).fill(null));
   if (s.next) s.next.cells.forEach(([cx, cy]) => { if (cy < 4 && cx < 4) nextGrid[cy][cx] = s.next.color; });
 
-  const boardW = W * CELL, boardH = H * CELL;
+  const boardW = W * CELL;
+  const boardH = H * CELL;
 
-  const exitGame = () => { clearInterval(tmr.current); navigate(returnTo); };
+  // Progress toward next heart
+  const nextHeartAt = (s.prevHeartThreshold + 1) * HEARTS_PER_LINES;
+  const heartProgress = s.phase === 'playing' ? ((s.lines % HEARTS_PER_LINES) / HEARTS_PER_LINES) * 100 : 0;
 
   return (
     <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #06000f 0%, #0a0520 60%, #06000f 100%)',
+      minHeight: '100vh', background: BG,
       display: 'flex', flexDirection: 'column', alignItems: 'center',
       fontFamily: "'Press Start 2P', monospace",
-      paddingTop: 10, paddingBottom: 20, userSelect: 'none',
+      paddingTop: 10, paddingBottom: 24, userSelect: 'none',
+      position: 'relative', overflow: 'hidden',
     }}>
 
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: Math.min(boardW + 100, 380), marginBottom: 10, padding: '0 4px' }}>
-        <div style={{ lineHeight: 1.6 }}>
-          <span style={{ fontSize: 8, color: '#aa00ff', textShadow: '0 0 14px #aa00ff88', letterSpacing: 2 }}>PYTHORIA</span><br />
-          <span style={{ fontSize: 8, color: '#00e5ff', textShadow: '0 0 14px #00e5ff88', letterSpacing: 2 }}>TETRIS</span>
+      {/* Ambient glow */}
+      <div style={{
+        position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)',
+        width: 320, height: 320, borderRadius: '50%',
+        background: `radial-gradient(circle, ${GOLD}15 0%, transparent 70%)`,
+        pointerEvents: 'none',
+      }} />
+
+      {/* Heart earned flash overlay */}
+      {heartFlash && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 100, pointerEvents: 'none',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          animation: 'heartFlashAnim 0.9s ease-out forwards',
+        }}>
+          <div style={{
+            fontSize: 80, filter: 'drop-shadow(0 0 30px #ef444480)',
+            animation: 'heartPop 0.9s cubic-bezier(.2,1.6,.4,1) forwards',
+          }}>❤️</div>
         </div>
-        <button onClick={exitGame} style={{
-          background: 'linear-gradient(135deg, #facc15, #f97316)',
-          color: '#000', border: 'none', borderRadius: 8,
-          padding: '8px 12px', fontSize: 7, letterSpacing: 1,
+      )}
+
+      {/* ── HEADER ─────────────────────────────────────────────────────── */}
+      <div style={{
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        width: Math.min(boardW + 110, 390), marginBottom: 10, padding: '0 4px',
+      }}>
+        {/* Branding */}
+        <div style={{ lineHeight: 1.8 }}>
+          <div style={{ fontSize: 7, color: GOLD, textShadow: `0 0 14px ${GOLD}88`, letterSpacing: 2 }}>🐉 PYTHORIA</div>
+          <div style={{ fontSize: 7, color: GOLD2, textShadow: `0 0 10px ${GOLD2}66`, letterSpacing: 2 }}>BONUS GAME</div>
+        </div>
+
+        {/* Skip button */}
+        <button onClick={skipGame} style={{
+          background: 'rgba(255,255,255,0.06)', border: `1px solid rgba(255,255,255,0.15)`,
+          borderRadius: 8, padding: '8px 14px',
+          color: 'rgba(255,255,255,0.5)', fontSize: 7,
           fontFamily: "'Press Start 2P', monospace",
-          cursor: 'pointer', boxShadow: '0 3px 0 #a06000',
-        }}>⚔️ QUEST</button>
+          cursor: 'pointer', letterSpacing: 1,
+        }}>SKIP ✕</button>
       </div>
 
-      {/* Game area */}
+      {/* Hearts earned display */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10,
+        background: 'rgba(250,204,21,0.08)', border: `1px solid ${GOLD}30`,
+        borderRadius: 12, padding: '8px 16px',
+        width: Math.min(boardW + 110, 390) - 8,
+      }}>
+        <div style={{ fontSize: 8, color: GOLD, letterSpacing: 1 }}>HEARTS EARNED</div>
+        <div style={{ display: 'flex', gap: 5, marginLeft: 'auto' }}>
+          {Array.from({ length: MAX_SESSION_HEARTS }, (_, i) => (
+            <div key={i} style={{
+              fontSize: 14,
+              filter: i < s.heartsEarned ? 'drop-shadow(0 0 8px #ef4444)' : 'grayscale(1)',
+              opacity: i < s.heartsEarned ? 1 : 0.3,
+              transition: 'all 0.3s ease',
+            }}>❤️</div>
+          ))}
+        </div>
+        {s.phase === 'playing' && s.heartsEarned < MAX_SESSION_HEARTS && (
+          <div style={{ fontSize: 6, color: 'rgba(255,255,255,0.3)', marginLeft: 6 }}>
+            {HEARTS_PER_LINES - (s.lines % HEARTS_PER_LINES)} more
+          </div>
+        )}
+      </div>
+
+      {/* ── GAME AREA ──────────────────────────────────────────────────── */}
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
 
         {/* Board */}
         <div style={{
           width: boardW, height: boardH,
-          border: '2px solid #aa00ff66',
-          boxShadow: '0 0 28px #aa00ff33, inset 0 0 24px rgba(0,0,0,0.9)',
-          background: '#020008', position: 'relative', overflow: 'hidden', flexShrink: 0,
+          border: `2px solid ${GOLD}55`,
+          boxShadow: `0 0 32px ${GOLD}22, inset 0 0 24px rgba(0,0,0,0.9)`,
+          background: '#100800', position: 'relative', overflow: 'hidden', flexShrink: 0,
         }}>
           {/* Grid lines */}
-          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.07, pointerEvents: 'none' }}>
-            {Array.from({ length: W - 1 }, (_, i) => <line key={`v${i}`} x1={(i+1)*CELL} y1={0} x2={(i+1)*CELL} y2={boardH} stroke="#8888ff" strokeWidth={0.5} />)}
-            {Array.from({ length: H - 1 }, (_, i) => <line key={`h${i}`} x1={0} y1={(i+1)*CELL} x2={boardW} y2={(i+1)*CELL} stroke="#8888ff" strokeWidth={0.5} />)}
+          <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.06, pointerEvents: 'none' }}>
+            {Array.from({ length: W - 1 }, (_, i) => <line key={`v${i}`} x1={(i+1)*CELL} y1={0} x2={(i+1)*CELL} y2={boardH} stroke={GOLD} strokeWidth={0.5} />)}
+            {Array.from({ length: H - 1 }, (_, i) => <line key={`h${i}`} x1={0} y1={(i+1)*CELL} x2={boardW} y2={(i+1)*CELL} stroke={GOLD} strokeWidth={0.5} />)}
           </svg>
 
           {/* Cells */}
@@ -239,56 +332,108 @@ export default function TetrisBreak() {
               position: 'absolute', left: ci * CELL + 1, top: ri * CELL + 1,
               width: CELL - 2, height: CELL - 2, borderRadius: 2,
               background: col.length > 7
-                ? `${col}` // ghost (already has alpha)
-                : `linear-gradient(135deg, ${col}ee, ${col}99)`,
-              boxShadow: col.length <= 7 ? `0 0 6px ${col}66, inset 0 1px 0 rgba(255,255,255,0.25)` : 'none',
+                ? col
+                : `linear-gradient(135deg, ${col}ee, ${col}88)`,
+              boxShadow: col.length <= 7 ? `0 0 8px ${col}55, inset 0 1px 0 rgba(255,255,255,0.3)` : 'none',
             }} />
           ) : null))}
 
+          {/* Heart progress bar at bottom of board */}
+          {s.phase === 'playing' && s.heartsEarned < MAX_SESSION_HEARTS && (
+            <div style={{
+              position: 'absolute', bottom: 0, left: 0, right: 0, height: 3,
+              background: 'rgba(255,255,255,0.05)',
+            }}>
+              <div style={{
+                height: '100%', width: `${heartProgress}%`,
+                background: `linear-gradient(90deg, #ef4444, #f97316)`,
+                boxShadow: '0 0 6px #ef4444',
+                transition: 'width 0.3s ease',
+              }} />
+            </div>
+          )}
+
           {/* Idle overlay */}
           {s.phase === 'idle' && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(6,0,15,0.88)', gap: 20 }}>
-              <div style={{ fontSize: 16, filter: 'drop-shadow(0 0 12px #aa00ff)' }}>🎮</div>
-              <div style={{ fontSize: 8, color: '#aa00ff', textShadow: '0 0 14px #aa00ff', animation: 'blinkAnim 1.2s step-end infinite', letterSpacing: 1 }}>TAP TO PLAY</div>
+            <div style={{
+              position: 'absolute', inset: 0, background: 'rgba(16,8,0,0.92)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 14,
+            }}>
+              <div style={{ fontSize: 52, animation: 'dragonFloat 2.5s ease-in-out infinite', filter: `drop-shadow(0 0 20px ${GOLD})` }}>🐉</div>
+              <div style={{ fontSize: 9, color: GOLD, textShadow: `0 0 16px ${GOLD}`, letterSpacing: 1, lineHeight: 1.8, textAlign: 'center' }}>
+                CLEAR LINES<br/>
+                <span style={{ fontSize: 7, color: GOLD2 }}>EARN ❤️ HEARTS!</span>
+              </div>
+              <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.3)', textAlign: 'center', lineHeight: 1.8 }}>
+                {HEARTS_PER_LINES} LINES = 1 ❤️<br/>
+                <span style={{ fontSize: 6 }}>MAX {MAX_SESSION_HEARTS} PER GAME</span>
+              </div>
               <button onClick={startGame} style={{
-                background: 'linear-gradient(135deg, #aa00ff, #6600cc)', color: '#fff',
-                border: 'none', borderRadius: 10, padding: '14px 22px', fontSize: 8,
+                background: `linear-gradient(135deg, ${GOLD}, ${GOLD2})`,
+                color: '#1a0e00', border: 'none', borderRadius: 10,
+                padding: '13px 22px', fontSize: 8,
                 fontFamily: "'Press Start 2P', monospace", cursor: 'pointer',
-                boxShadow: '0 4px 0 #440088, 0 0 20px #aa00ff55', letterSpacing: 1,
-              }}>START GAME</button>
+                boxShadow: `0 4px 0 ${DARK}, 0 0 24px ${GOLD}55`, letterSpacing: 1,
+              }}>▶ START GAME</button>
             </div>
           )}
 
           {/* Game over overlay */}
           {s.phase === 'over' && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'rgba(6,0,15,0.9)', gap: 14 }}>
-              <div style={{ fontSize: 10, color: '#ff1744', textShadow: '0 0 18px #ff1744', letterSpacing: 1 }}>GAME OVER</div>
-              <div style={{ fontSize: 8, color: '#facc15', textShadow: '0 0 10px #facc1566' }}>{s.score.toLocaleString()} PTS</div>
-              <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.45)' }}>{s.lines} LINES · LV {s.level}</div>
+            <div style={{
+              position: 'absolute', inset: 0, background: 'rgba(16,8,0,0.92)',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12,
+            }}>
+              <div style={{ fontSize: 28, filter: `drop-shadow(0 0 12px ${GOLD})` }}>🐉</div>
+              <div style={{ fontSize: 9, color: GOLD, textShadow: `0 0 14px ${GOLD}`, letterSpacing: 1 }}>GAME OVER</div>
+              <div style={{ fontSize: 8, color: GOLD2 }}>{s.score.toLocaleString()} PTS</div>
+              <div style={{ fontSize: 6, color: 'rgba(255,255,255,0.4)' }}>{s.lines} LINES · LV {s.level}</div>
+              {s.heartsEarned > 0 && (
+                <div style={{ fontSize: 7, color: '#f87171', textAlign: 'center', lineHeight: 2 }}>
+                  +{s.heartsEarned} ❤️ EARNED!
+                </div>
+              )}
               <button onClick={startGame} style={{
-                background: 'linear-gradient(135deg, #aa00ff, #6600cc)', color: '#fff',
-                border: 'none', borderRadius: 10, padding: '12px 20px', fontSize: 8,
-                fontFamily: "'Press Start 2P', monospace", cursor: 'pointer', boxShadow: '0 3px 0 #440088',
-              }}>RETRY</button>
+                background: `linear-gradient(135deg, ${GOLD}, ${GOLD2})`,
+                color: '#1a0e00', border: 'none', borderRadius: 10,
+                padding: '11px 18px', fontSize: 7,
+                fontFamily: "'Press Start 2P', monospace", cursor: 'pointer',
+                boxShadow: `0 3px 0 ${DARK}`,
+              }}>↺ RETRY</button>
               <button onClick={exitGame} style={{
-                background: 'linear-gradient(135deg, #facc15, #f97316)', color: '#000',
-                border: 'none', borderRadius: 10, padding: '12px 20px', fontSize: 8,
-                fontFamily: "'Press Start 2P', monospace", cursor: 'pointer', boxShadow: '0 3px 0 #a06000',
+                background: 'rgba(255,255,255,0.08)', border: `1px solid ${GOLD}40`,
+                color: GOLD, borderRadius: 10, padding: '11px 18px', fontSize: 7,
+                fontFamily: "'Press Start 2P', monospace", cursor: 'pointer',
               }}>⚔️ CONTINUE</button>
             </div>
           )}
         </div>
 
-        {/* Side panel */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 86, flexShrink: 0 }}>
+        {/* ── SIDE PANEL ──────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: 88, flexShrink: 0 }}>
+
+          {/* Py dragon mascot */}
+          <div style={{
+            background: `linear-gradient(135deg, ${GOLD}18, ${GOLD2}08)`,
+            border: `1px solid ${GOLD}40`, borderRadius: 10,
+            padding: '8px 4px', textAlign: 'center',
+          }}>
+            <div style={{
+              fontSize: 30,
+              animation: s.phase === 'playing' ? 'dragonWatch 2s ease-in-out infinite' : 'dragonFloat 2.5s ease-in-out infinite',
+              display: 'inline-block',
+              filter: `drop-shadow(0 0 10px ${GOLD}80)`,
+            }}>🐉</div>
+            <div style={{ fontSize: 5, color: GOLD, letterSpacing: 1, marginTop: 3 }}>PY</div>
+          </div>
 
           {/* Next piece */}
-          <div style={{ background: 'rgba(170,0,255,0.08)', border: '1px solid #aa00ff33', borderRadius: 8, padding: '8px 6px' }}>
-            <div style={{ fontSize: 5, color: '#aa00ff77', marginBottom: 6, letterSpacing: 1, textAlign: 'center' }}>NEXT</div>
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(4, ${CELL * 0.68}px)`, gap: 1, justifyContent: 'center' }}>
+          <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}25`, borderRadius: 8, padding: '8px 4px' }}>
+            <div style={{ fontSize: 5, color: `${GOLD}66`, marginBottom: 5, letterSpacing: 1, textAlign: 'center' }}>NEXT</div>
+            <div style={{ display: 'grid', gridTemplateColumns: `repeat(4, ${CELL * 0.65}px)`, gap: 1, justifyContent: 'center' }}>
               {nextGrid.map((row, ri) => row.map((col, ci) => (
                 <div key={`n${ri}-${ci}`} style={{
-                  width: CELL * 0.68, height: CELL * 0.68, borderRadius: 2,
+                  width: CELL * 0.65, height: CELL * 0.65, borderRadius: 2,
                   background: col ? `${col}cc` : 'transparent',
                   boxShadow: col ? `0 0 4px ${col}66` : 'none',
                 }} />
@@ -297,31 +442,58 @@ export default function TetrisBreak() {
           </div>
 
           {/* Stats */}
-          {[['SCORE', s.score.toLocaleString()], ['LINES', s.lines], ['LEVEL', s.level]].map(([lbl, val]) => (
-            <div key={lbl} style={{ background: 'rgba(0,229,255,0.05)', border: '1px solid #00e5ff22', borderRadius: 8, padding: '8px 8px' }}>
-              <div style={{ fontSize: 5, color: '#00e5ff55', marginBottom: 4, letterSpacing: 1 }}>{lbl}</div>
-              <div style={{ fontSize: 10, color: '#00e5ff', textShadow: '0 0 8px #00e5ff66', wordBreak: 'break-all' }}>{val}</div>
+          {[['SCORE', s.score.toLocaleString()], ['LINES', s.lines], ['LV', s.level]].map(([lbl, val]) => (
+            <div key={lbl} style={{ background: `${GOLD}06`, border: `1px solid ${GOLD}20`, borderRadius: 8, padding: '7px 7px' }}>
+              <div style={{ fontSize: 5, color: `${GOLD}55`, marginBottom: 3, letterSpacing: 1 }}>{lbl}</div>
+              <div style={{ fontSize: 10, color: GOLD, textShadow: `0 0 8px ${GOLD}55`, wordBreak: 'break-all' }}>{val}</div>
             </div>
           ))}
+
+          {/* Continue button (while playing) */}
+          {s.phase === 'playing' && (
+            <button onClick={exitGame} style={{
+              background: 'rgba(255,255,255,0.05)', border: `1px solid ${GOLD}30`,
+              borderRadius: 8, padding: '9px 4px',
+              color: `${GOLD}99`, fontSize: 5,
+              fontFamily: "'Press Start 2P', monospace",
+              cursor: 'pointer', letterSpacing: 1, lineHeight: 1.8,
+              textAlign: 'center',
+            }}>⚔️{'\n'}QUEST</button>
+          )}
         </div>
       </div>
 
-      {/* Mobile controls */}
-      <div style={{ marginTop: 18, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+      {/* ── MOBILE CONTROLS ──────────────────────────────────────────── */}
+      <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-          <button onPointerDown={e => { e.preventDefault(); rotate(); }}   style={ctrlBtn('#aa00ff')}>↻</button>
-          <button onPointerDown={e => { e.preventDefault(); hardDrop(); }} style={ctrlBtn('#facc15')}>⬇⬇</button>
+          <button onPointerDown={e => { e.preventDefault(); rotate(); }}   style={ctrlBtn(GOLD)}>↻</button>
+          <button onPointerDown={e => { e.preventDefault(); hardDrop(); }} style={ctrlBtn(GOLD2)}>⬇⬇</button>
         </div>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-          <button onPointerDown={e => { e.preventDefault(); moveLeft(); }}  style={ctrlBtn('#2979ff')}>◀</button>
-          <button onPointerDown={e => { e.preventDefault(); moveDown(); }}  style={ctrlBtn('#00e676')}>▼</button>
-          <button onPointerDown={e => { e.preventDefault(); moveRight(); }} style={ctrlBtn('#2979ff')}>▶</button>
+          <button onPointerDown={e => { e.preventDefault(); moveLeft(); }}  style={ctrlBtn(GOLD)}>◀</button>
+          <button onPointerDown={e => { e.preventDefault(); moveDown(); }}  style={ctrlBtn(GOLD2)}>▼</button>
+          <button onPointerDown={e => { e.preventDefault(); moveRight(); }} style={ctrlBtn(GOLD)}>▶</button>
         </div>
       </div>
 
       <style>{`
+        @keyframes dragonFloat { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-8px) rotate(2deg)} }
+        @keyframes dragonWatch { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-4px) scale(1.05)} }
+        @keyframes heartFlashAnim { 0%{background:rgba(239,68,68,0)} 20%{background:rgba(239,68,68,0.12)} 100%{background:rgba(239,68,68,0)} }
+        @keyframes heartPop { 0%{opacity:0;transform:scale(0.2)} 40%{opacity:1;transform:scale(1.3)} 70%{transform:scale(0.9)} 100%{opacity:0;transform:scale(1.1)} }
         @keyframes blinkAnim { 0%,100%{opacity:1} 50%{opacity:0} }
       `}</style>
     </div>
   );
+}
+
+function ctrlBtn(color) {
+  return {
+    background: `${color}18`, border: `2px solid ${color}55`,
+    color, borderRadius: 10, padding: '14px 0', width: 58,
+    fontSize: 13, fontFamily: "'Press Start 2P', monospace",
+    cursor: 'pointer', boxShadow: `0 4px 0 ${color}33`,
+    userSelect: 'none', WebkitUserSelect: 'none',
+    touchAction: 'manipulation', flexShrink: 0,
+  };
 }

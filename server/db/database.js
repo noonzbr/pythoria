@@ -60,6 +60,13 @@ const db = {
     return data.user;
   },
 
+  addHearts: (amount) => {
+    const data = load();
+    data.user.hearts = Math.min(5, data.user.hearts + amount);
+    save(data);
+    return data.user;
+  },
+
   restoreHearts: () => {
     const data = load();
     if (data.user.gems < 350) return { success: false, message: 'Not enough gems' };

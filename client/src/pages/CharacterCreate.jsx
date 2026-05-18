@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CLASSES } from '../data/story.js';
 import { useStory } from '../hooks/useStory.js';
 import { sounds } from '../utils/sounds.js';
+import { HeroAvatar } from './Home.jsx';
 
 export default function CharacterCreate() {
   const navigate = useNavigate();
@@ -211,15 +212,31 @@ export default function CharacterCreate() {
         {step === 'confirm' && cls && (
           <StepCard key="confirm">
             <div style={{ textAlign: 'center', marginBottom: 20 }}>
-              <div style={{ fontSize: 52, marginBottom: 8 }}>{cls.emoji}</div>
+              {/* Hero silhouette */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 10 }}>
+                <svg width="72" height="88" viewBox="0 0 20 26" style={{ overflow: 'visible', filter: `drop-shadow(0 0 14px ${cls.color}80)` }}>
+                  <ellipse cx="10" cy="25" rx="6" ry="2" fill="rgba(0,0,0,0.35)" />
+                  <path d="M4,12 Q2,19 3,24 Q10,27 17,24 Q18,19 16,12 Z" fill={cls.color} opacity="0.9" />
+                  <path d="M6,13 Q5,20 6,23 Q10,25 14,23 Q15,20 14,13 Z" fill="rgba(0,0,0,0.2)" />
+                  <path d="M4,12 Q5,4 10,2 Q15,4 16,12 Q13,8 10,8 Q7,8 4,12 Z" fill={cls.color} />
+                  <ellipse cx="10" cy="9.5" rx="3.2" ry="3.5" fill="rgba(0,0,0,0.5)" />
+                  <circle cx="8.5" cy="9" r="0.75" fill="white" opacity="0.85" />
+                  <circle cx="11.5" cy="9" r="0.75" fill="white" opacity="0.85" />
+                  <line x1="16" y1="13" x2="19.5" y2="22" stroke={cls.color} strokeWidth="1" opacity="0.65" />
+                  <circle cx="19.5" cy="22" r="1" fill={cls.color} opacity="0.8" />
+                  <path d="M5,13 Q6,20 7,23" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="0.8" />
+                </svg>
+              </div>
               <div style={{
-                fontFamily: "'Press Start 2P', monospace", fontSize: 11,
+                fontFamily: "'Press Start 2P', monospace", fontSize: 13,
                 color: cls.color, letterSpacing: 2, marginBottom: 4,
+                textShadow: `0 0 20px ${cls.color}80`,
               }}>
                 {name}
               </div>
-              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600 }}>
-                {clsI18n?.name || cls.name}
+              <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                <span>{cls.emoji}</span>
+                <span>{clsI18n?.name || cls.name}</span>
               </div>
             </div>
 

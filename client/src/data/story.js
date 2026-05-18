@@ -331,7 +331,7 @@ export const CLASSES = [
   {
     id: 'hunter',
     name: 'Bug Hunter',
-    emoji: '🐛',
+    emoji: '🔍',
     tagline: 'Errors have nowhere to hide.',
     desc: 'Born to seek and destroy. Bugs fear your name. Stack traces are your treasure maps.',
     color: '#22c55e',

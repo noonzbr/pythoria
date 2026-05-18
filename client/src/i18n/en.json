@@ -88,7 +88,7 @@
     "allSavedMsg": "The Python Codex is whole once more. Py is proud of you, {{name}}.",
     "resetSave": "Reset save",
     "realmNames": ["Syntax Swamps", "Logic Labyrinth", "Endless Forest", "Void Tower", "Dragon's Domain"],
-    "recoverFragment": "Recover the Fragment of {{fragment}}",
+    "recoverFragment": "Recover the {{fragment}}",
     "pyMessages": {
       "start": "\"The first step is always the hardest, {{name}}. The Syntax Swamps await. I believe in you.\"",
       "streak": "\"{{streak}} days strong! The Bug Lord can feel your power growing.\"",

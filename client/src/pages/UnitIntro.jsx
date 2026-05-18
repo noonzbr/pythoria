@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { UNIT_INTROS } from '../data/story.js';
 import { UNITS } from '../data/curriculum.js';
+import { locIntro, locIntroPanel } from '../utils/loc.js';
 import { useStory } from '../hooks/useStory.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { sounds } from '../utils/sounds.js';
@@ -14,7 +15,7 @@ export default function UnitIntro() {
   const navigate   = useNavigate();
   const { markUnitIntroSeen } = useStory();
   const { completed } = useProgress();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const uid   = parseInt(unitId);
   const intro = UNIT_INTROS[uid];
@@ -27,23 +28,25 @@ export default function UnitIntro() {
   const [leaving, setLeaving]     = useState(false);
   const intervalRef = useRef(null);
 
-  const panel = intro?.panels[panelIdx];
+  const panel  = intro?.panels[panelIdx];
+  const lIntro = intro  ? locIntro(uid, intro)                 : null;
+  const lPanel = panel  ? locIntroPanel(uid, panelIdx, panel)  : null;
 
   useEffect(() => {
     sounds.intro();
   }, []);
 
   useEffect(() => {
-    if (!panel) return;
+    if (!lPanel) return;
     setVisible(false);
     setDisplayed('');
     setDone(false);
     const t = setTimeout(() => {
       setVisible(true);
-      startType(panel.text);
+      startType(lPanel.text);
     }, 350);
     return () => clearTimeout(t);
-  }, [panelIdx]);
+  }, [panelIdx, i18n.language]);
 
   const startType = (text) => {
     clearInterval(intervalRef.current);
@@ -58,7 +61,7 @@ export default function UnitIntro() {
   const advance = () => {
     if (!done) {
       clearInterval(intervalRef.current);
-      setDisplayed(panel.text);
+      setDisplayed(lPanel.text);
       setDone(true);
       return;
     }
@@ -85,7 +88,7 @@ export default function UnitIntro() {
     return () => window.removeEventListener('keydown', handler);
   }, [done, panelIdx]);
 
-  if (!intro || !panel) { navigate('/learn'); return null; }
+  if (!intro || !panel || !lPanel) { navigate('/learn'); return null; }
 
   const realmColors = {
     1: { color: '#58CC02', bg: 'linear-gradient(180deg, #021a04, #010e02)' },
@@ -134,12 +137,12 @@ export default function UnitIntro() {
             {t('unitIntro.realm', { n: uid })}
           </div>
           <div style={{ fontFamily: "'Press Start 2P', monospace", fontSize: 10, color: 'rgba(255,255,255,0.8)', marginTop: 3 }}>
-            {intro.unitName}
+            {lIntro.unitName}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
           <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', fontFamily: "'Press Start 2P', monospace" }}>
-            {intro.fragmentName}
+            {lIntro.fragmentName}
           </div>
         </div>
       </div>
@@ -162,13 +165,13 @@ export default function UnitIntro() {
         }}>{panel.emoji}</div>
 
         {/* Title */}
-        {panel.title && (
+        {lPanel.title && (
           <div style={{
             fontFamily: "'Press Start 2P', monospace",
             fontSize: 'clamp(9px, 2.5vw, 13px)',
             color: theme.color, letterSpacing: 3, lineHeight: 1.6,
             textShadow: `0 0 16px ${theme.color}80`,
-          }}>{panel.title}</div>
+          }}>{lPanel.title}</div>
         )}
 
         {/* Dialogue speaker */}

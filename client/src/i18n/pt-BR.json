@@ -88,7 +88,7 @@
     "allSavedMsg": "O Códex Python está completo novamente. Py tem muito orgulho de você, {{name}}.",
     "resetSave": "Reiniciar jogo",
     "realmNames": ["Pântanos de Sintaxe", "Labirinto da Lógica", "Floresta Infinita", "Torre do Vazio", "Domínio do Dragão"],
-    "recoverFragment": "Recuperar o Fragmento de {{fragment}}",
+    "recoverFragment": "Recuperar o {{fragment}}",
     "pyMessages": {
       "start": "\"O primeiro passo é sempre o mais difícil, {{name}}. Os Pântanos de Sintaxe aguardam. Acredito em você.\"",
       "streak": "\"{{streak}} dias seguidos! O Senhor dos Bugs pode sentir seu poder crescendo.\"",
