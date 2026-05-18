@@ -11,6 +11,7 @@ import LessonLearn    from './pages/LessonLearn.jsx';
 import Lesson         from './pages/Lesson.jsx';
 import Epilogue       from './pages/Epilogue.jsx';
 import Profile        from './pages/Profile.jsx';
+import TetrisBreak    from './pages/TetrisBreak.jsx';
 import Navbar         from './components/Navbar.jsx';
 
 // Redirects unauthenticated users to /splash
@@ -23,7 +24,7 @@ function RequireSetup({ children }) {
 
 function AppLayout() {
   const location = useLocation();
-  const fullscreen = ['/', '/splash', '/lang', '/prologue', '/start', '/epilogue'].includes(location.pathname) ||
+  const fullscreen = ['/', '/splash', '/lang', '/prologue', '/start', '/epilogue', '/tetris'].includes(location.pathname) ||
     location.pathname.startsWith('/unit-intro') ||
     location.pathname.startsWith('/lesson');
 
@@ -45,6 +46,7 @@ function AppLayout() {
         <Route path="/lesson/:unitId/:lessonId" element={<RequireSetup><Lesson /></RequireSetup>} />
         <Route path="/epilogue" element={<RequireSetup><Epilogue /></RequireSetup>} />
         <Route path="/profile" element={<RequireSetup><Profile /></RequireSetup>} />
+        <Route path="/tetris"  element={<RequireSetup><TetrisBreak /></RequireSetup>} />
 
         <Route path="*" element={<Navigate to="/splash" replace />} />
       </Routes>

@@ -1187,7 +1187,7 @@ function VictoryScreen({ unit, lesson, xpEarned, combo, enemy, navigate }) {
         ))}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%' }}>
-        <button onClick={() => { sounds.click(); navigate('/learn'); }} style={{
+        <button onClick={() => { sounds.click(); navigate('/tetris', { state: { returnTo: '/learn' } }); }} style={{
           padding: '15px', borderRadius: 16, fontWeight: 900, fontSize: 12,
           background: `linear-gradient(135deg, ${unit.color}, ${unit.borderColor})`,
           color: 'white', boxShadow: `0 5px 0 ${unit.borderColor}, 0 0 24px ${unit.color}55`,
