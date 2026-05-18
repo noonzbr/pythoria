@@ -542,8 +542,25 @@ export function HeroFigureSVG({ cls, size = 80, animate = false }) {
       <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.22)" />
       <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
       <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.52)" />
-      <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.85" />
-      <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+      {/* Eyebrows */}
+      <path d="M7.2,12.6 Q8.6,11.9 10,12.6" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.38" strokeLinecap="round" />
+      <path d="M10,12.6 Q11.4,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.38" strokeLinecap="round" />
+      {/* Glasses lens fill */}
+      <circle cx="8.6" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
+      <circle cx="11.4" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
+      {/* Eyes inside lenses */}
+      <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.9" />
+      <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.9" />
+      {/* Glasses frames */}
+      <circle cx="8.6" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      <circle cx="11.4" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      {/* Bridge */}
+      <line x1="10.08" y1="14.5" x2="9.92" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      {/* Arms */}
+      <line x1="7.12" y1="14.5" x2="6.3" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      <line x1="12.88" y1="14.5" x2="13.7" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      {/* Smile */}
+      <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
       <line x1="16" y1="20" x2="19" y2="34" stroke={color} strokeWidth="1.1" opacity="0.65" />
       <circle cx="19" cy="34" r="1.1" fill={color} opacity="0.8" />
       <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="0.9" />
@@ -574,8 +591,18 @@ export function HeroAvatar({ cls, size = 44, animate = false }) {
         <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.2)" />
         <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
         <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.5)" />
-        <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.85" />
-        <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.85" />
+        <path d="M7.2,12.6 Q8.6,11.9 10,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
+        <path d="M10,12.6 Q11.4,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
+        <circle cx="8.6" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
+        <circle cx="11.4" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
+        <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.9" />
+        <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.9" />
+        <circle cx="8.6" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+        <circle cx="11.4" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+        <line x1="10.08" y1="14.5" x2="9.92" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+        <line x1="7.12" y1="14.5" x2="6.3" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+        <line x1="12.88" y1="14.5" x2="13.7" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+        <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="0.38" strokeLinecap="round" />
       </svg>
     </div>
   );

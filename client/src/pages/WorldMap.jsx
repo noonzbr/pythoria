@@ -662,8 +662,18 @@ function MapHeroFigure({ x, y, color, scale = 1 }) {
       <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.25)" />
       <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.95" />
       <ellipse cx="10" cy="15" rx="4" ry="4" fill="rgba(0,0,0,0.55)" />
-      <circle cx="8.5" cy="14.5" r="0.9" fill="white" opacity="0.8" />
-      <circle cx="11.5" cy="14.5" r="0.9" fill="white" opacity="0.8" />
+      <path d="M7.2,12.6 Q8.5,11.9 9.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
+      <path d="M10.2,12.6 Q11.5,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
+      <circle cx="8.5" cy="14.5" r="1.5" fill="rgba(180,225,255,0.18)" />
+      <circle cx="11.5" cy="14.5" r="1.5" fill="rgba(180,225,255,0.18)" />
+      <circle cx="8.5" cy="14.5" r="0.9" fill="white" opacity="0.9" />
+      <circle cx="11.5" cy="14.5" r="0.9" fill="white" opacity="0.9" />
+      <circle cx="8.5" cy="14.5" r="1.5" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
+      <circle cx="11.5" cy="14.5" r="1.5" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
+      <line x1="10" y1="14.5" x2="10" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
+      <line x1="7" y1="14.5" x2="6.2" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
+      <line x1="13" y1="14.5" x2="13.8" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
+      <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="0.38" strokeLinecap="round" />
       <line x1="16" y1="20" x2="19" y2="35" stroke={color} strokeWidth="1.2" opacity="0.6" />
       <circle cx="19" cy="35" r="1.2" fill={color} opacity="0.8" />
       <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />

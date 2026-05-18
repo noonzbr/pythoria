@@ -51,7 +51,7 @@
     "classes": [
       {
         "name": "Caballero del Código",
-        "tagline": "Ataca primero. Debuguea después.",
+        "tagline": "Ataca primero. Depura después.",
         "desc": "Intrépido y directo. Te lanzas de cabeza a los problemas y los resuelves con pura determinación.",
         "pyLine": "\"Espíritu guerrero. Los Caballeros del Código fueron los primeros defensores de Pythoria. Avanza con valentía — pero nunca olvides pensar.\""
       },
@@ -115,7 +115,7 @@
   "battle": {
     "waiting": "espera tu respuesta...",
     "critHit": "¡Golpe crítico!",
-    "combo": "x ¡Combo!",
+    "combo": "¡x Combo!",
     "counterAttack": "¡contraataca!",
     "correct": "¡Correcto!",
     "wrong": "¡Incorrecto!",

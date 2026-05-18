@@ -145,12 +145,12 @@
       "correct": "✅ CORRETO! {{extra}}",
       "wrong": "❌ ERRADO! TOME DANO!",
       "comboSuffix": "{{n}}x COMBO!",
-      "streakSuffix": "{{n}}x SEQUÊNCIA!"
+      "streakSuffix": "{{n}}x RAJADA!"
     }
   },
   "victory": {
     "title": "VITÓRIA!",
-    "defeated": "foi derrotado",
+    "defeated": "foi derrotado(a)",
     "xpEarned": "XP GANHO",
     "maxCombo": "COMBO MÁXIMO",
     "defeatedLabel": "DERROTADO",
