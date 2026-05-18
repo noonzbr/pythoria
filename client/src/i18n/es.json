@@ -1,0 +1,188 @@
+{
+  "app": {
+    "name": "Pythoria",
+    "tagline": "Una Aventura en Python"
+  },
+  "nav": {
+    "map": "MAPA",
+    "camp": "CAMPAMENTO",
+    "hero": "HÉROE"
+  },
+  "splash": {
+    "press": "PRESIONA CUALQUIER TECLA"
+  },
+  "prologue": {
+    "skip": "OMITIR",
+    "tap": "TOCA PARA CONTINUAR",
+    "tapBegin": "TOCA PARA COMENZAR →",
+    "panels": [
+      {
+        "title": null,
+        "text": "Hace mucho tiempo, en un reino más allá de la pantalla, existía un mundo construido enteramente en código.\n\nMontañas declaradas como constantes. Ríos fluyendo a través de bucles infinitos. La vida misma — una función, llamada de nuevo cada amanecer.\n\nEste era Pythoria."
+      },
+      {
+        "title": "EL CÓDEX PYTHON",
+        "text": "En el corazón de Pythoria descansaba el Códex Python — un antiguo tomo de sabiduría infinita, encuadernado en cinco Fragmentos sagrados.\n\nCada Fragmento gobernaba una ley de la realidad: Orígenes, Decisión, Iteración, Creación y Maestría.\n\nMientras el Códex permaneciera completo, el reino sería eterno."
+      },
+      {
+        "title": "EL SEÑOR DE LOS BUGS",
+        "text": "No tenía nombre antes. Solo un programador — brillante, obsesionado, destruido por su propia ambición.\n\nCuando su magnum opus crasheó con una excepción fatal, algo dentro de él se rompió junto con ella.\n\nDesde ese vacío de rabia, se rehízo a sí mismo.\n\nEl Señor de los Bugs."
+      },
+      {
+        "title": "EL ESTALLIDO",
+        "text": "En una sola pulsación catastrófica, destrozó el Códex Python.\n\nCinco Fragmentos dispersados a cinco reinos malditos:\n\n🌿 Los Pantanos de Sintaxis\n🏛️ El Laberinto Lógico\n🌀 El Bosque Infinito\n🏰 La Torre del Vacío\n🔥 El Dominio del Dragón\n\nPythoria comenzó a deshacerse."
+      },
+      {
+        "title": null,
+        "text": "\"He buscado a través de mil errores de ejecución para encontrarte.\"\n\nLa voz vino de todas partes y de ningún lugar. Antigua. Cansada. Esperanzadora.\n\n\"Soy Py — el último Dragón Python. Guardián del Códex desde antes de que tu mundo tuviera computadoras.\"\n\n\"Y tú... tú tienes el don. La habilidad de pensar en lógica pura. De doblar el código a tu voluntad.\"\n\n\"¿Responderás al llamado?\""
+      },
+      {
+        "title": "TU MISIÓN",
+        "text": "Cinco Fragmentos. Cinco reinos. Cinco guardianes entre la ruina y la salvación.\n\nEl Señor de los Bugs se vuelve más fuerte con cada segundo que pasa. Pythoria se desvanece.\n\nEres su única esperanza.\n\nArmado(a) solo con tu ingenio y el poder de Python — tu leyenda comienza ahora."
+      }
+    ]
+  },
+  "charCreate": {
+    "pyLabel": "PY HABLA",
+    "questionName": "\"Valiente. Antes de comenzar, debo saber tu nombre. ¿Cómo debe llamarte el Códex?\"",
+    "namePlaceholder": "Ingresa tu nombre...",
+    "nameButton": "ESE SOY YO →",
+    "questionClass": "\"Bienvenido(a), {{name}}. Ahora — todo gran programador tiene una naturaleza. ¿Cuál camino te llama?\"",
+    "classButton": "ESTE ES MI CAMINO →",
+    "confirmText": "\"Entonces está decidido. Desde este momento, eres el campeón de Pythoria. Los fragmentos del Códex aguardan. El Señor de los Bugs se agita en la distancia.\n\nLa misión comienza ahora, {{name}}.\n\nEstaré contigo en cada paso.\"",
+    "beginButton": "INICIAR MISIÓN ⚔️",
+    "changeClass": "← Cambiar Clase",
+    "classes": [
+      {
+        "name": "Caballero del Código",
+        "tagline": "Ataca primero. Debuguea después.",
+        "desc": "Intrépido y directo. Te lanzas de cabeza a los problemas y los resuelves con pura determinación.",
+        "pyLine": "\"Espíritu guerrero. Los Caballeros del Código fueron los primeros defensores de Pythoria. Avanza con valentía — pero nunca olvides pensar.\""
+      },
+      {
+        "name": "Mago de la Lógica",
+        "tagline": "Piensa dos veces. Lanza una vez.",
+        "desc": "Metódico y preciso. Ves todos los caminos antes de elegir uno — solo soluciones elegantes.",
+        "pyLine": "\"Brillante. Los Magos de la Lógica mapearon el Códex Python por pura razón. Confía en tu mente — raramente te llevará por mal camino.\""
+      },
+      {
+        "name": "Cazador de Bugs",
+        "tagline": "Los errores no tienen dónde esconderse.",
+        "desc": "Nacido para buscar y destruir. Los bugs temen tu nombre. Los stack traces son tus mapas del tesoro.",
+        "pyLine": "\"¡Ha! Un Cazador de Bugs. Perfecto. La mitad de esta misión es encontrar dónde salió mal todo. Naciste para esto, guerrero(a).\""
+      }
+    ]
+  },
+  "home": {
+    "loading": "CARGANDO...",
+    "activeQuest": "MISIÓN ACTIVA",
+    "pySays": "PY DICE",
+    "enterBattle": "⚔️ ENTRAR EN BATALLA",
+    "pythoriaTitle": "PYTHORIA",
+    "battles": "batallas",
+    "allSaved": "PYTHORIA SALVADA",
+    "allSavedMsg": "El Códex Python está completo de nuevo. Py está orgulloso de ti, {{name}}.",
+    "resetSave": "Reiniciar partida",
+    "realmNames": ["Pantanos de Sintaxis", "Laberinto Lógico", "Bosque Infinito", "Torre del Vacío", "Dominio del Dragón"],
+    "recoverFragment": "Recuperar el Fragmento de {{fragment}}",
+    "pyMessages": {
+      "start": "\"El primer paso es siempre el más difícil, {{name}}. Los Pantanos de Sintaxis aguardan. Creo en ti.\"",
+      "streak": "\"¡{{streak}} días seguidos! El Señor de los Bugs puede sentir tu poder crecer.\"",
+      "progressing": "\"{{name}}... te estás volviendo formidable. Los reinos tiemblan.\"",
+      "default": "\"Cada batalla que ganas hace el Códex más fuerte. Sigue adelante, {{name}}.\""
+    },
+    "stats": {
+      "hearts": "VIDAS",
+      "gems": "GEMAS",
+      "wins": "VICTORIAS",
+      "level": "NIVEL",
+      "xp": "XP",
+      "xpToNext": "{{xp}} XP para el Nivel {{level}}"
+    }
+  },
+  "map": {
+    "title": "Pythoria",
+    "subtitle": "MAPA MUNDO",
+    "clearedLabel": "COMPLETADO",
+    "nowLabel": "AQUÍ",
+    "lockedMsg": "Completa el reino anterior para desbloquear.",
+    "replayBtn": "▶ REPETIR REINO",
+    "enterBtn": "▶ ENTRAR AL REINO",
+    "continueBtn": "▶ CONTINUAR",
+    "lessons": "lecciones",
+    "allSaved": "PYTHORIA SALVADA",
+    "allSavedMsg": "El Códex Python está completo de nuevo. Py está orgulloso de ti."
+  },
+  "battle": {
+    "waiting": "espera tu respuesta...",
+    "critHit": "¡Golpe crítico!",
+    "combo": "x ¡Combo!",
+    "counterAttack": "¡contraataca!",
+    "correct": "¡Correcto!",
+    "wrong": "¡Incorrecto!",
+    "attackBtn": "⚔ ATACAR",
+    "nextBtn": "▶ SIGUIENTE",
+    "continueBtn": "🛡 CONTINUAR",
+    "hintBtn": "🐉 Pedir Pista a Py",
+    "hintLoading": "🐉 Py está pensando...",
+    "pyLabel": "PY HABLA",
+    "hpLabel": "TU HP",
+    "bossLabel": "JEFE",
+    "types": {
+      "multiple_choice": "🎯 Opción Múltiple",
+      "fill_blank": "✏️ Rellenar",
+      "fix_bug": "🐛 Arreglar Bug",
+      "output_predict": "🔮 Predecir"
+    },
+    "placeholders": {
+      "fix": "Escribe el código corregido aquí...",
+      "fill": "Escribe tu respuesta..."
+    },
+    "exit": "✕"
+  },
+  "victory": {
+    "title": "¡VICTORIA!",
+    "defeated": "ha sido derrotado",
+    "xpEarned": "XP GANADO",
+    "maxCombo": "COMBO MÁXIMO",
+    "defeatedLabel": "DERROTADO",
+    "nextBattle": "▶ SIGUIENTE BATALLA",
+    "returnCamp": "Volver al Campamento",
+    "tapContinue": "TOCA PARA CONTINUAR"
+  },
+  "defeat": {
+    "title": "DERROTA",
+    "msg": "Todo guerrero cae. Levántate más fuerte.",
+    "retry": "🔄 REINTENTAR",
+    "retreat": "Retirarse al Mapa"
+  },
+  "profile": {
+    "level": "Nivel",
+    "title": "Domador de Dragones",
+    "editHint": "✏️",
+    "totalXP": "XP TOTAL",
+    "dayStreak": "DÍAS SEGUIDOS",
+    "lessons": "LECCIONES",
+    "livesAndGems": "Vidas y Gemas",
+    "heartsRemaining": "{{hearts}}/5 vidas restantes",
+    "restoreBtn": "💎 Restaurar Vidas (350 gemas)",
+    "fullHearts": "❤️ ¡Vidas completas! ¡Sigue la misión!",
+    "progress": "Progreso",
+    "achievements": "Logros",
+    "earned": "OBTENIDO ★",
+    "saving": "...",
+    "saveBtn": "✓"
+  },
+  "unitIntro": {
+    "realm": "REINO {{n}} DE 5",
+    "skip": "OMITIR",
+    "tapContinue": "TOCA PARA CONTINUAR",
+    "tapEnter": "TOCA PARA ENTRAR AL REINO ⚔️"
+  },
+  "lang": {
+    "label": "Idioma",
+    "en": "English",
+    "ptBR": "Português (BR)",
+    "es": "Español"
+  }
+}

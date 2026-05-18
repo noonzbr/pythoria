@@ -1,0 +1,188 @@
+{
+  "app": {
+    "name": "Pythoria",
+    "tagline": "A Python Adventure"
+  },
+  "nav": {
+    "map": "MAP",
+    "camp": "CAMP",
+    "hero": "HERO"
+  },
+  "splash": {
+    "press": "PRESS ANY KEY"
+  },
+  "prologue": {
+    "skip": "SKIP",
+    "tap": "TAP TO CONTINUE",
+    "tapBegin": "TAP TO BEGIN →",
+    "panels": [
+      {
+        "title": null,
+        "text": "Long ago, in a realm beyond the screen, there existed a world built entirely from code.\n\nMountains declared as constants. Rivers flowing through endless for-loops. Life itself — a function, called anew each dawn.\n\nThis was Pythoria."
+      },
+      {
+        "title": "THE PYTHON CODEX",
+        "text": "At the heart of Pythoria rested the Python Codex — an ancient tome of infinite wisdom, bound in five sacred Fragments.\n\nEach Fragment governed a law of reality: Beginnings, Decision, Iteration, Creation, and Mastery.\n\nAs long as the Codex remained whole, the realm was eternal."
+      },
+      {
+        "title": "THE BUG LORD",
+        "text": "He had no name once. Just a coder — brilliant, obsessed, undone by his own ambition.\n\nWhen his magnum opus crashed with a fatal exception, something inside him broke along with it.\n\nFrom that void of rage, he remade himself.\n\nThe Bug Lord."
+      },
+      {
+        "title": "THE SHATTERING",
+        "text": "In one catastrophic keystroke, he shattered the Python Codex.\n\nFive Fragments scattered to five cursed realms:\n\n🌿 The Syntax Swamps\n🏛️ The Logic Labyrinth\n🌀 The Endless Forest\n🏰 The Void Tower\n🔥 The Dragon's Domain\n\nPythoria began to unravel."
+      },
+      {
+        "title": null,
+        "text": "\"I have searched across a thousand runtime errors to find you.\"\n\nThe voice came from everywhere and nowhere. Ancient. Tired. Hopeful.\n\n\"I am Py — the last Python Dragon. Guardian of the Codex since before your world had computers.\"\n\n\"And you... you have the gift. The ability to think in pure logic. To bend code to your will.\"\n\n\"Will you answer the call?\""
+      },
+      {
+        "title": "YOUR QUEST",
+        "text": "Five Fragments. Five realms. Five guardians standing between ruin and salvation.\n\nThe Bug Lord grows stronger with every passing second. Pythoria fades.\n\nYou are its only hope.\n\nArmed with nothing but wit and the power of Python — your legend begins now."
+      }
+    ]
+  },
+  "charCreate": {
+    "pyLabel": "PY SPEAKS",
+    "questionName": "\"Brave one. Before we begin, I must know your name. What shall the Codex call you?\"",
+    "namePlaceholder": "Enter your name...",
+    "nameButton": "THAT'S ME →",
+    "questionClass": "\"Welcome, {{name}}. Now — every great coder has a nature. Which path calls to you?\"",
+    "classButton": "THIS IS MY PATH →",
+    "confirmText": "\"Then it is decided. From this moment, you are the champion of Pythoria. The Codex fragments await. The Bug Lord stirs in the distance.\n\nThe quest begins now, {{name}}.\n\nI will be with you every step.\"",
+    "beginButton": "BEGIN QUEST ⚔️",
+    "changeClass": "← Change Class",
+    "classes": [
+      {
+        "name": "Code Knight",
+        "tagline": "Strike first. Debug later.",
+        "desc": "Fearless and direct. You charge into problems headfirst and solve them through sheer determination.",
+        "pyLine": "\"A warrior's spirit. The Code Knights were the first defenders of Pythoria. Charge boldly — but never forget to think.\""
+      },
+      {
+        "name": "Logic Mage",
+        "tagline": "Think twice. Cast once.",
+        "desc": "Methodical and precise. You see every path before choosing one — elegant solutions only.",
+        "pyLine": "\"Brilliant. The Logic Mages mapped the Python Codex by pure reason alone. Trust your mind — it will rarely lead you wrong.\""
+      },
+      {
+        "name": "Bug Hunter",
+        "tagline": "Errors have nowhere to hide.",
+        "desc": "Born to seek and destroy. Bugs fear your name. Stack traces are your treasure maps.",
+        "pyLine": "\"Ha! A Bug Hunter. Perfect. Half this quest is finding where things went wrong. You were made for this, warrior.\""
+      }
+    ]
+  },
+  "home": {
+    "loading": "LOADING...",
+    "activeQuest": "ACTIVE QUEST",
+    "pySays": "PY SAYS",
+    "enterBattle": "⚔️ ENTER BATTLE",
+    "pythoriaTitle": "PYTHORIA",
+    "battles": "battles",
+    "allSaved": "PYTHORIA SAVED",
+    "allSavedMsg": "The Python Codex is whole once more. Py is proud of you, {{name}}.",
+    "resetSave": "Reset save",
+    "realmNames": ["Syntax Swamps", "Logic Labyrinth", "Endless Forest", "Void Tower", "Dragon's Domain"],
+    "recoverFragment": "Recover the Fragment of {{fragment}}",
+    "pyMessages": {
+      "start": "\"The first step is always the hardest, {{name}}. The Syntax Swamps await. I believe in you.\"",
+      "streak": "\"{{streak}} days strong! The Bug Lord can feel your power growing.\"",
+      "progressing": "\"{{name}}... you're becoming formidable. The realms tremble.\"",
+      "default": "\"Every battle you win makes the Codex stronger. Keep going, {{name}}.\""
+    },
+    "stats": {
+      "hearts": "HEARTS",
+      "gems": "GEMS",
+      "wins": "WINS",
+      "level": "LEVEL",
+      "xp": "XP",
+      "xpToNext": "{{xp}} XP to Level {{level}}"
+    }
+  },
+  "map": {
+    "title": "Pythoria",
+    "subtitle": "WORLD MAP",
+    "clearedLabel": "CLEARED",
+    "nowLabel": "NOW",
+    "lockedMsg": "Complete the previous realm to unlock.",
+    "replayBtn": "▶ REPLAY REALM",
+    "enterBtn": "▶ ENTER REALM",
+    "continueBtn": "▶ CONTINUE",
+    "lessons": "lessons",
+    "allSaved": "PYTHORIA SAVED",
+    "allSavedMsg": "The Python Codex is whole once more. Py is proud of you."
+  },
+  "battle": {
+    "waiting": "awaits your answer...",
+    "critHit": "Critical hit!",
+    "combo": "x Combo!",
+    "counterAttack": "counter-attacks!",
+    "correct": "Correct!",
+    "wrong": "Wrong!",
+    "attackBtn": "⚔ ATTACK",
+    "nextBtn": "▶ NEXT",
+    "continueBtn": "🛡 CONTINUE",
+    "hintBtn": "🐉 Ask Py for a Hint",
+    "hintLoading": "🐉 Py is thinking...",
+    "pyLabel": "PY SPEAKS",
+    "hpLabel": "YOUR HP",
+    "bossLabel": "BOSS",
+    "types": {
+      "multiple_choice": "🎯 M.Choice",
+      "fill_blank": "✏️ Fill Blank",
+      "fix_bug": "🐛 Fix Bug",
+      "output_predict": "🔮 Predict"
+    },
+    "placeholders": {
+      "fix": "Type the fixed code here...",
+      "fill": "Type your answer..."
+    },
+    "exit": "✕"
+  },
+  "victory": {
+    "title": "VICTORY!",
+    "defeated": "has been defeated",
+    "xpEarned": "XP EARNED",
+    "maxCombo": "MAX COMBO",
+    "defeatedLabel": "DEFEATED",
+    "nextBattle": "▶ NEXT BATTLE",
+    "returnCamp": "Return to Camp",
+    "tapContinue": "TAP TO CONTINUE"
+  },
+  "defeat": {
+    "title": "DEFEATED",
+    "msg": "Every warrior falls. Rise stronger.",
+    "retry": "🔄 RETRY",
+    "retreat": "Retreat to Map"
+  },
+  "profile": {
+    "level": "Level",
+    "title": "Dragon Tamer",
+    "editHint": "✏️",
+    "totalXP": "TOTAL XP",
+    "dayStreak": "DAY STREAK",
+    "lessons": "LESSONS",
+    "livesAndGems": "Lives & Gems",
+    "heartsRemaining": "{{hearts}}/5 hearts remaining",
+    "restoreBtn": "💎 Restore Hearts (350 gems)",
+    "fullHearts": "❤️ Full hearts! Keep questing!",
+    "progress": "Progress",
+    "achievements": "Achievements",
+    "earned": "EARNED ★",
+    "saving": "...",
+    "saveBtn": "✓"
+  },
+  "unitIntro": {
+    "realm": "REALM {{n}} OF 5",
+    "skip": "SKIP",
+    "tapContinue": "TAP TO CONTINUE",
+    "tapEnter": "TAP TO ENTER REALM ⚔️"
+  },
+  "lang": {
+    "label": "Language",
+    "en": "English",
+    "ptBR": "Português (BR)",
+    "es": "Español"
+  }
+}

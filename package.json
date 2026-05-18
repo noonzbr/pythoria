@@ -1,0 +1,15 @@
+{
+  "name": "pythoria",
+  "version": "1.0.0",
+  "description": "Pythoria — Learn Python through adventure",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "npm install --prefix server && npm install --prefix client && npm run build --prefix client",
+    "start": "node server/index.js",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client"
+  }
+}

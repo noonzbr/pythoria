@@ -1,0 +1,188 @@
+{
+  "app": {
+    "name": "Pythoria",
+    "tagline": "Uma Aventura em Python"
+  },
+  "nav": {
+    "map": "MAPA",
+    "camp": "ACAMPAMENTO",
+    "hero": "HERÓI"
+  },
+  "splash": {
+    "press": "PRESSIONE QUALQUER TECLA"
+  },
+  "prologue": {
+    "skip": "PULAR",
+    "tap": "TOQUE PARA CONTINUAR",
+    "tapBegin": "TOQUE PARA COMEÇAR →",
+    "panels": [
+      {
+        "title": null,
+        "text": "Há muito tempo, em um reino além da tela, existia um mundo construído inteiramente em código.\n\nMontanhas declaradas como constantes. Rios fluindo por laços infinitos. A própria vida — uma função, chamada de novo a cada amanhecer.\n\nEste era Pythoria."
+      },
+      {
+        "title": "O CÓDEX PYTHON",
+        "text": "No coração de Pythoria repousava o Códex Python — um antigo tomo de sabedoria infinita, encadernado em cinco Fragmentos sagrados.\n\nCada Fragmento regia uma lei da realidade: Origens, Decisão, Iteração, Criação e Maestria.\n\nEnquanto o Códex permanecesse inteiro, o reino seria eterno."
+      },
+      {
+        "title": "O SENHOR DOS BUGS",
+        "text": "Ele não tinha nome antes. Apenas um programador — brilhante, obcecado, destruído pela própria ambição.\n\nQuando sua obra-prima falhou com uma exceção fatal, algo dentro dele quebrou junto.\n\nDaquele vazio de raiva, ele se refez.\n\nO Senhor dos Bugs."
+      },
+      {
+        "title": "O ESTILHAÇAMENTO",
+        "text": "Em um único toque catastrófico, ele estilhaçou o Códex Python.\n\nCinco Fragmentos espalhados por cinco reinos amaldiçoados:\n\n🌿 Os Pântanos de Sintaxe\n🏛️ O Labirinto da Lógica\n🌀 A Floresta Infinita\n🏰 A Torre do Vazio\n🔥 O Domínio do Dragão\n\nPythoria começou a se desfazer."
+      },
+      {
+        "title": null,
+        "text": "\"Eu busquei através de mil erros de execução para te encontrar.\"\n\nA voz vinha de todos os lugares e de lugar nenhum. Antiga. Cansada. Esperançosa.\n\n\"Eu sou Py — o último Dragão Python. Guardião do Códex desde antes de seu mundo ter computadores.\"\n\n\"E você... você tem o dom. A habilidade de pensar em lógica pura. De dobrar o código à sua vontade.\"\n\n\"Você aceitará o chamado?\""
+      },
+      {
+        "title": "SUA MISSÃO",
+        "text": "Cinco Fragmentos. Cinco reinos. Cinco guardiões entre a ruína e a salvação.\n\nO Senhor dos Bugs fica mais forte a cada segundo que passa. Pythoria se apaga.\n\nVocê é a única esperança.\n\nArmado(a) apenas com seu engenho e o poder do Python — sua lenda começa agora."
+      }
+    ]
+  },
+  "charCreate": {
+    "pyLabel": "PY FALA",
+    "questionName": "\"Valente. Antes de começarmos, preciso saber seu nome. Como o Códex deve te chamar?\"",
+    "namePlaceholder": "Digite seu nome...",
+    "nameButton": "SOU EU →",
+    "questionClass": "\"Bem-vindo(a), {{name}}. Agora — todo grande programador tem uma natureza. Qual caminho te chama?\"",
+    "classButton": "ESTE É MEU CAMINHO →",
+    "confirmText": "\"Então está decidido. A partir deste momento, você é o campeão de Pythoria. Os fragmentos do Códex aguardam. O Senhor dos Bugs se agita à distância.\n\nA missão começa agora, {{name}}.\n\nEstarei com você a cada passo.\"",
+    "beginButton": "INICIAR MISSÃO ⚔️",
+    "changeClass": "← Mudar Classe",
+    "classes": [
+      {
+        "name": "Cavaleiro do Código",
+        "tagline": "Atacar primeiro. Debugar depois.",
+        "desc": "Destemido e direto. Você mergulha nos problemas de cabeça e os resolve pela força pura da determinação.",
+        "pyLine": "\"Espírito guerreiro. Os Cavaleiros do Código foram os primeiros defensores de Pythoria. Avance com coragem — mas nunca esqueça de pensar.\""
+      },
+      {
+        "name": "Mago da Lógica",
+        "tagline": "Pense duas vezes. Lance uma vez.",
+        "desc": "Metódico e preciso. Você vê todos os caminhos antes de escolher um — soluções elegantes apenas.",
+        "pyLine": "\"Brilhante. Os Magos da Lógica mapearam o Códex Python pela razão pura. Confie em sua mente — raramente te levará ao erro.\""
+      },
+      {
+        "name": "Caçador de Bugs",
+        "tagline": "Erros não têm onde se esconder.",
+        "desc": "Nascido para buscar e destruir. Bugs temem seu nome. Stack traces são seus mapas do tesouro.",
+        "pyLine": "\"Ha! Um Caçador de Bugs. Perfeito. Metade desta missão é encontrar onde as coisas deram errado. Você nasceu para isso, guerreiro(a).\""
+      }
+    ]
+  },
+  "home": {
+    "loading": "CARREGANDO...",
+    "activeQuest": "MISSÃO ATIVA",
+    "pySays": "PY DIZ",
+    "enterBattle": "⚔️ ENTRAR EM BATALHA",
+    "pythoriaTitle": "PYTHORIA",
+    "battles": "batalhas",
+    "allSaved": "PYTHORIA SALVA",
+    "allSavedMsg": "O Códex Python está completo novamente. Py tem muito orgulho de você, {{name}}.",
+    "resetSave": "Reiniciar jogo",
+    "realmNames": ["Pântanos de Sintaxe", "Labirinto da Lógica", "Floresta Infinita", "Torre do Vazio", "Domínio do Dragão"],
+    "recoverFragment": "Recuperar o Fragmento de {{fragment}}",
+    "pyMessages": {
+      "start": "\"O primeiro passo é sempre o mais difícil, {{name}}. Os Pântanos de Sintaxe aguardam. Acredito em você.\"",
+      "streak": "\"{{streak}} dias seguidos! O Senhor dos Bugs pode sentir seu poder crescendo.\"",
+      "progressing": "\"{{name}}... você está se tornando formidável. Os reinos tremem.\"",
+      "default": "\"Cada batalha que você vence deixa o Códex mais forte. Continue, {{name}}.\""
+    },
+    "stats": {
+      "hearts": "VIDAS",
+      "gems": "GEMAS",
+      "wins": "VITÓRIAS",
+      "level": "NÍVEL",
+      "xp": "XP",
+      "xpToNext": "{{xp}} XP para o Nível {{level}}"
+    }
+  },
+  "map": {
+    "title": "Pythoria",
+    "subtitle": "MAPA MUNDO",
+    "clearedLabel": "CONQUISTADO",
+    "nowLabel": "AQUI",
+    "lockedMsg": "Complete o reino anterior para desbloquear.",
+    "replayBtn": "▶ REPETIR REINO",
+    "enterBtn": "▶ ENTRAR NO REINO",
+    "continueBtn": "▶ CONTINUAR",
+    "lessons": "lições",
+    "allSaved": "PYTHORIA SALVA",
+    "allSavedMsg": "O Códex Python está completo novamente. Py tem muito orgulho de você."
+  },
+  "battle": {
+    "waiting": "aguarda sua resposta...",
+    "critHit": "Golpe crítico!",
+    "combo": "x Combo!",
+    "counterAttack": "contra-ataca!",
+    "correct": "Correto!",
+    "wrong": "Errado!",
+    "attackBtn": "⚔ ATACAR",
+    "nextBtn": "▶ PRÓXIMO",
+    "continueBtn": "🛡 CONTINUAR",
+    "hintBtn": "🐉 Pedir Dica ao Py",
+    "hintLoading": "🐉 Py está pensando...",
+    "pyLabel": "PY FALA",
+    "hpLabel": "SEU HP",
+    "bossLabel": "CHEFE",
+    "types": {
+      "multiple_choice": "🎯 Múltiplaescolha",
+      "fill_blank": "✏️ Preencher",
+      "fix_bug": "🐛 Corrigir Bug",
+      "output_predict": "🔮 Prever"
+    },
+    "placeholders": {
+      "fix": "Digite o código corrigido aqui...",
+      "fill": "Digite sua resposta..."
+    },
+    "exit": "✕"
+  },
+  "victory": {
+    "title": "VITÓRIA!",
+    "defeated": "foi derrotado",
+    "xpEarned": "XP GANHO",
+    "maxCombo": "COMBO MÁXIMO",
+    "defeatedLabel": "DERROTADO",
+    "nextBattle": "▶ PRÓXIMA BATALHA",
+    "returnCamp": "Voltar ao Acampamento",
+    "tapContinue": "TOQUE PARA CONTINUAR"
+  },
+  "defeat": {
+    "title": "DERROTA",
+    "msg": "Todo guerreiro cai. Levante-se mais forte.",
+    "retry": "🔄 TENTAR DE NOVO",
+    "retreat": "Recuar para o Mapa"
+  },
+  "profile": {
+    "level": "Nível",
+    "title": "Domador de Dragões",
+    "editHint": "✏️",
+    "totalXP": "XP TOTAL",
+    "dayStreak": "DIAS SEGUIDOS",
+    "lessons": "LIÇÕES",
+    "livesAndGems": "Vidas e Gemas",
+    "heartsRemaining": "{{hearts}}/5 vidas restantes",
+    "restoreBtn": "💎 Restaurar Vidas (350 gemas)",
+    "fullHearts": "❤️ Vidas cheias! Continue a missão!",
+    "progress": "Progresso",
+    "achievements": "Conquistas",
+    "earned": "CONQUISTADO ★",
+    "saving": "...",
+    "saveBtn": "✓"
+  },
+  "unitIntro": {
+    "realm": "REINO {{n}} DE 5",
+    "skip": "PULAR",
+    "tapContinue": "TOQUE PARA CONTINUAR",
+    "tapEnter": "TOQUE PARA ENTRAR NO REINO ⚔️"
+  },
+  "lang": {
+    "label": "Idioma",
+    "en": "English",
+    "ptBR": "Português (BR)",
+    "es": "Español"
+  }
+}
