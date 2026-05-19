@@ -5,24 +5,34 @@ let _splashTimer = null;
 
 function _splashTick() {
   if (!_splashActive) return;
-  const sq = (f, d) => tone(f, 'square', 0.22, 0.07, d);
-  const tr = (f, d) => tone(f, 'triangle', 0.38, 0.06, d);
-  // 8-bit RPG theme — 4-second loop in C major
-  sq(523, 0.00); sq(659, 0.25); sq(784, 0.50); sq(659, 0.75);
-  sq(880, 1.00); sq(784, 1.25); sq(698, 1.50); sq(659, 1.75);
-  sq(523, 2.00); sq(659, 2.25); sq(784, 2.50); sq(1047,2.75);
-  sq(784, 3.00); sq(659, 3.25); sq(523, 3.50); sq(392, 3.75);
-  // Bass line
-  tr(131, 0.00); tr(131, 0.50);
-  tr(165, 1.00); tr(165, 1.50);
-  tr(131, 2.00); tr(131, 2.50);
-  tr(196, 3.00); tr(196, 3.50);
-  // Harmony pad
-  tone(392, 'sine', 0.95, 0.04, 0.00);
-  tone(494, 'sine', 0.95, 0.04, 1.00);
-  tone(392, 'sine', 0.95, 0.04, 2.00);
-  tone(523, 'sine', 0.95, 0.04, 3.00);
-  _splashTimer = setTimeout(_splashTick, 4050);
+  // Funky disco groove — 4-beat loop at 120BPM
+  const sq = (f, d) => tone(f, 'square',   0.10, 0.09, d); // staccato synth lead
+  const sw = (f, d) => tone(f, 'sawtooth', 0.08, 0.07, d); // funk chop pad
+  const tr = (f, d) => tone(f, 'triangle', 0.30, 0.10, d); // bass
+
+  // Synth lead melody (8th notes, upbeat disco feel)
+  sq(784, 0.00); sq(784, 0.125); sq(880, 0.25); sq(784, 0.375);
+  sq(659, 0.50); sq(784, 0.625);
+  sq(880, 1.00); sq(880, 1.125); sq(1047,1.25); sq(880, 1.375);
+  sq(784, 1.50); sq(659, 1.625); sq(784, 1.75);
+  sq(784, 2.00); sq(784, 2.125); sq(880, 2.25); sq(784, 2.375);
+  sq(659, 2.50); sq(523, 2.625); sq(659, 2.75); sq(784, 2.875);
+  sq(880, 3.00); sq(784, 3.125); sq(659, 3.25);
+  sq(523, 3.50); sq(659, 3.625); sq(784, 3.75);
+
+  // Four-on-the-floor bass (every beat + offbeat groove)
+  tr(196, 0.00); tr(196, 0.25); tr(261, 0.50); tr(196, 0.75);
+  tr(220, 1.00); tr(220, 1.25); tr(261, 1.50); tr(220, 1.75);
+  tr(196, 2.00); tr(196, 2.25); tr(261, 2.50); tr(196, 2.75);
+  tr(175, 3.00); tr(196, 3.25); tr(220, 3.50); tr(261, 3.75);
+
+  // Offbeat funk chop (the "wah" rhythm, on the upbeats)
+  sw(392, 0.125); sw(392, 0.375); sw(349, 0.625);
+  sw(392, 1.125); sw(392, 1.375); sw(440, 1.625);
+  sw(392, 2.125); sw(392, 2.375); sw(349, 2.625);
+  sw(392, 3.125); sw(440, 3.375); sw(523, 3.625);
+
+  _splashTimer = setTimeout(_splashTick, 4000);
 }
 
 function getCtx() {
