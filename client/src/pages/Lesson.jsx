@@ -6,7 +6,7 @@ import { UNIT_OUTROS, CLASSES } from '../data/story.js';
 import { useProgress } from '../hooks/useProgress.js';
 import { useStory } from '../hooks/useStory.js';
 import { sounds } from '../utils/sounds.js';
-import { locLesson } from '../utils/loc.js';
+import { locLesson, locExercise } from '../utils/loc.js';
 import { HeroFigureSVG } from './Home.jsx';
 
 // ─── Enemy definitions ────────────────────────────────────────────────────────
@@ -191,7 +191,7 @@ export default function Lesson() {
 
   if (!unit || !lesson) { navigate('/learn'); return null; }
 
-  const exercise = exercises[step];
+  const exercise = locExercise(unit.id, lesson.id, step, exercises[step]);
 
   const burstParticles = (count, color) => {
     const newP = Array.from({ length: count }, (_, i) => ({

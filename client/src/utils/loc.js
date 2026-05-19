@@ -72,3 +72,17 @@ export function locIntro(unitId, intro) {
     fragmentName: get(`intro.${unitId}.fragmentName`) ?? intro.fragmentName,
   };
 }
+
+export function locExercise(unitId, lessonId, idx, exercise) {
+  if (!exercise) return exercise;
+  const l = lang();
+  if (l === 'en') return exercise;
+  const p = `e${unitId}.${lessonId}.${idx}`;
+  return {
+    ...exercise,
+    question:    get(`${p}.question`)    ?? exercise.question,
+    options:     get(`${p}.options`)     ?? exercise.options,
+    explanation: get(`${p}.explanation`) ?? exercise.explanation,
+    hint:        get(`${p}.hint`)        ?? exercise.hint,
+  };
+}
