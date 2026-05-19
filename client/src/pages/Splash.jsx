@@ -128,6 +128,16 @@ export default function Splash() {
         </div>
       </div>
 
+      {/* Dedication */}
+      <div style={{
+        position: 'absolute', bottom: 20, left: 20,
+        fontFamily: "'Press Start 2P', monospace",
+        fontSize: 7, color: 'rgba(255,255,255,0.25)', letterSpacing: 1,
+        fontStyle: 'italic',
+      }}>
+        For Giovani
+      </div>
+
       {/* Version */}
       <div style={{
         position: 'absolute', bottom: 20, right: 20,
