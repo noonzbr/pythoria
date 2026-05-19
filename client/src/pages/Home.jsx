@@ -493,32 +493,44 @@ export default function Home() {
 }
 
 // ── Unisex hooded hero SVG figure ────────────────────────────────────────────
-// Used on the map. color = class color for the cloak.
 function HeroSVGFigure({ x, y, color, size = 20 }) {
   const s = size / 20;
   return (
     <g transform={`translate(${x - 10 * s}, ${y - 20 * s}) scale(${s})`}>
-      {/* Shadow */}
       <ellipse cx="10" cy="40" rx="7" ry="2.5" fill="rgba(0,0,0,0.4)" />
-      {/* Cloak body */}
-      <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z"
-        fill={color} opacity="0.85" />
-      {/* Cloak inner shadow */}
-      <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z"
-        fill="rgba(0,0,0,0.25)" />
-      {/* Hood */}
-      <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z"
-        fill={color} opacity="0.95" />
-      {/* Face shadow inside hood */}
-      <ellipse cx="10" cy="15" rx="4" ry="4" fill="rgba(0,0,0,0.55)" />
-      {/* Eyes glow */}
-      <circle cx="8.5" cy="14.5" r="0.9" fill="white" opacity="0.8" />
-      <circle cx="11.5" cy="14.5" r="0.9" fill="white" opacity="0.8" />
-      {/* Weapon hint */}
-      <line x1="16" y1="20" x2="19" y2="35"
-        stroke={color} strokeWidth="1.2" opacity="0.6" />
+      <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.88" />
+      <path d="M6.5,19 Q5.5,29 6,37 Q10,40 14,37 Q14.5,29 13.5,19 Z" fill="rgba(0,0,0,0.15)" />
+      <rect x="7.5" y="28" width="5" height="3.5" rx="1" fill="rgba(0,0,0,0.2)" />
+      <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
+      {/* Warm face */}
+      <circle cx="10" cy="15.2" r="3.8" fill="#FFDAB3" />
+      {/* Blush */}
+      <ellipse cx="7.2" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+      <ellipse cx="12.8" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+      {/* Eyebrows */}
+      <path d="M7.2,12.9 Q8.2,12.3 9.1,12.8" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      <path d="M10.9,12.8 Q11.8,12.3 12.8,12.9" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      {/* Left eye */}
+      <circle cx="8.3" cy="14.6" r="1.2" fill="white" />
+      <circle cx="8.3" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="8.3" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="8.65" cy="14.15" r="0.28" fill="white" />
+      {/* Right eye */}
+      <circle cx="11.7" cy="14.6" r="1.2" fill="white" />
+      <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
+      {/* Gold glasses */}
+      <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+      {/* Smile */}
+      <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
+      <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
+      <line x1="16" y1="20" x2="19" y2="35" stroke={color} strokeWidth="1.2" opacity="0.6" />
       <circle cx="19" cy="35" r="1.2" fill={color} opacity="0.8" />
-      {/* Cloak highlight */}
       <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
     </g>
   );
@@ -541,26 +553,33 @@ export function HeroFigureSVG({ cls, size = 80, animate = false }) {
       <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.88" />
       <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.22)" />
       <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
-      <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.52)" />
+      {/* Warm face */}
+      <circle cx="10" cy="15.2" r="3.8" fill="#FFDAB3" />
+      {/* Blush */}
+      <ellipse cx="7.2" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+      <ellipse cx="12.8" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
       {/* Eyebrows */}
-      <path d="M7.2,12.6 Q8.6,11.9 10,12.6" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.38" strokeLinecap="round" />
-      <path d="M10,12.6 Q11.4,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="0.38" strokeLinecap="round" />
-      {/* Glasses lens fill */}
-      <circle cx="8.6" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
-      <circle cx="11.4" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
-      {/* Eyes inside lenses */}
-      <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.9" />
-      <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.9" />
-      {/* Glasses frames */}
-      <circle cx="8.6" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-      <circle cx="11.4" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-      {/* Bridge */}
-      <line x1="10.08" y1="14.5" x2="9.92" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-      {/* Arms */}
-      <line x1="7.12" y1="14.5" x2="6.3" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-      <line x1="12.88" y1="14.5" x2="13.7" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
+      <path d="M7.2,12.9 Q8.2,12.3 9.1,12.8" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      <path d="M10.9,12.8 Q11.8,12.3 12.8,12.9" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      {/* Left eye */}
+      <circle cx="8.3" cy="14.6" r="1.2" fill="white" />
+      <circle cx="8.3" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="8.3" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="8.65" cy="14.15" r="0.28" fill="white" />
+      {/* Right eye */}
+      <circle cx="11.7" cy="14.6" r="1.2" fill="white" />
+      <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
+      {/* Gold glasses */}
+      <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
       {/* Smile */}
-      <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
+      <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
+      <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
       <line x1="16" y1="20" x2="19" y2="34" stroke={color} strokeWidth="1.1" opacity="0.65" />
       <circle cx="19" cy="34" r="1.1" fill={color} opacity="0.8" />
       <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="0.9" />
@@ -590,19 +609,33 @@ export function HeroAvatar({ cls, size = 44, animate = false }) {
         <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.9" />
         <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.2)" />
         <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.96" />
-        <ellipse cx="10" cy="15" rx="3.8" ry="3.8" fill="rgba(0,0,0,0.5)" />
-        <path d="M7.2,12.6 Q8.6,11.9 10,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
-        <path d="M10,12.6 Q11.4,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
-        <circle cx="8.6" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
-        <circle cx="11.4" cy="14.5" r="1.48" fill="rgba(180,225,255,0.18)" />
-        <circle cx="8.6" cy="14.5" r="0.85" fill="white" opacity="0.9" />
-        <circle cx="11.4" cy="14.5" r="0.85" fill="white" opacity="0.9" />
-        <circle cx="8.6" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-        <circle cx="11.4" cy="14.5" r="1.48" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-        <line x1="10.08" y1="14.5" x2="9.92" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-        <line x1="7.12" y1="14.5" x2="6.3" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-        <line x1="12.88" y1="14.5" x2="13.7" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.42" />
-        <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="0.38" strokeLinecap="round" />
+        {/* Warm face */}
+        <circle cx="10" cy="15.2" r="3.8" fill="#FFDAB3" />
+        {/* Blush */}
+        <ellipse cx="7.2" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+        <ellipse cx="12.8" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+        {/* Eyebrows */}
+        <path d="M7.2,12.9 Q8.2,12.3 9.1,12.8" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+        <path d="M10.9,12.8 Q11.8,12.3 12.8,12.9" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+        {/* Left eye */}
+        <circle cx="8.3" cy="14.6" r="1.2" fill="white" />
+        <circle cx="8.3" cy="14.6" r="0.82" fill="#6B8FCC" />
+        <circle cx="8.3" cy="14.6" r="0.5" fill="#1A1040" />
+        <circle cx="8.65" cy="14.15" r="0.28" fill="white" />
+        {/* Right eye */}
+        <circle cx="11.7" cy="14.6" r="1.2" fill="white" />
+        <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
+        <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
+        <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
+        {/* Gold glasses */}
+        <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+        <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+        <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
+        <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+        <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+        {/* Smile */}
+        <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
+        <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
       </svg>
     </div>
   );

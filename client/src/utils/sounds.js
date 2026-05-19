@@ -1,5 +1,29 @@
 let ctx = null;
 let muted = false;
+let _splashActive = false;
+let _splashTimer = null;
+
+function _splashTick() {
+  if (!_splashActive) return;
+  const sq = (f, d) => tone(f, 'square', 0.22, 0.07, d);
+  const tr = (f, d) => tone(f, 'triangle', 0.38, 0.06, d);
+  // 8-bit RPG theme — 4-second loop in C major
+  sq(523, 0.00); sq(659, 0.25); sq(784, 0.50); sq(659, 0.75);
+  sq(880, 1.00); sq(784, 1.25); sq(698, 1.50); sq(659, 1.75);
+  sq(523, 2.00); sq(659, 2.25); sq(784, 2.50); sq(1047,2.75);
+  sq(784, 3.00); sq(659, 3.25); sq(523, 3.50); sq(392, 3.75);
+  // Bass line
+  tr(131, 0.00); tr(131, 0.50);
+  tr(165, 1.00); tr(165, 1.50);
+  tr(131, 2.00); tr(131, 2.50);
+  tr(196, 3.00); tr(196, 3.50);
+  // Harmony pad
+  tone(392, 'sine', 0.95, 0.04, 0.00);
+  tone(494, 'sine', 0.95, 0.04, 1.00);
+  tone(392, 'sine', 0.95, 0.04, 2.00);
+  tone(523, 'sine', 0.95, 0.04, 3.00);
+  _splashTimer = setTimeout(_splashTick, 4050);
+}
 
 function getCtx() {
   if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -239,6 +263,17 @@ export const sounds = {
     noise(0.20, 0.30);
     tone(60, 'sawtooth', 0.5, 0.32, 0.05);
     tone(80, 'sawtooth', 0.4, 0.26, 0.12);
+  },
+
+  startSplashTheme: () => {
+    if (_splashActive) return;
+    _splashActive = true;
+    _splashTick();
+  },
+  stopSplashTheme: () => {
+    _splashActive = false;
+    clearTimeout(_splashTimer);
+    _splashTimer = null;
   },
 
   toggleMute: () => { muted = !muted; return muted; },

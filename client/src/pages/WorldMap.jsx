@@ -661,19 +661,33 @@ function MapHeroFigure({ x, y, color, scale = 1 }) {
       <path d="M4,18 Q2,28 3,38 Q10,42 17,38 Q18,28 16,18 Z" fill={color} opacity="0.85" />
       <path d="M6,20 Q5,30 6,37 Q10,40 14,37 Q15,30 14,20 Z" fill="rgba(0,0,0,0.25)" />
       <path d="M4,18 Q5,8 10,6 Q15,8 16,18 Q13,14 10,14 Q7,14 4,18 Z" fill={color} opacity="0.95" />
-      <ellipse cx="10" cy="15" rx="4" ry="4" fill="rgba(0,0,0,0.55)" />
-      <path d="M7.2,12.6 Q8.5,11.9 9.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
-      <path d="M10.2,12.6 Q11.5,11.9 12.8,12.6" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="0.38" strokeLinecap="round" />
-      <circle cx="8.5" cy="14.5" r="1.5" fill="rgba(180,225,255,0.18)" />
-      <circle cx="11.5" cy="14.5" r="1.5" fill="rgba(180,225,255,0.18)" />
-      <circle cx="8.5" cy="14.5" r="0.9" fill="white" opacity="0.9" />
-      <circle cx="11.5" cy="14.5" r="0.9" fill="white" opacity="0.9" />
-      <circle cx="8.5" cy="14.5" r="1.5" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
-      <circle cx="11.5" cy="14.5" r="1.5" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
-      <line x1="10" y1="14.5" x2="10" y2="14.5" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
-      <line x1="7" y1="14.5" x2="6.2" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
-      <line x1="13" y1="14.5" x2="13.8" y2="14.85" stroke="rgba(255,255,255,0.92)" strokeWidth="0.45" />
-      <path d="M8.7,16.9 Q10,17.7 11.3,16.9" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="0.38" strokeLinecap="round" />
+      {/* Warm face */}
+      <circle cx="10" cy="15.2" r="3.8" fill="#FFDAB3" />
+      {/* Blush */}
+      <ellipse cx="7.2" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+      <ellipse cx="12.8" cy="16.3" rx="1.0" ry="0.6" fill="rgba(255,140,130,0.4)" />
+      {/* Eyebrows */}
+      <path d="M7.2,12.9 Q8.2,12.3 9.1,12.8" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      <path d="M10.9,12.8 Q11.8,12.3 12.8,12.9" fill="none" stroke="rgba(100,60,20,0.75)" strokeWidth="0.42" strokeLinecap="round" />
+      {/* Left eye */}
+      <circle cx="8.3" cy="14.6" r="1.2" fill="white" />
+      <circle cx="8.3" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="8.3" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="8.65" cy="14.15" r="0.28" fill="white" />
+      {/* Right eye */}
+      <circle cx="11.7" cy="14.6" r="1.2" fill="white" />
+      <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
+      <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
+      <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
+      {/* Gold glasses */}
+      <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+      <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
+      {/* Smile */}
+      <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
+      <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
       <line x1="16" y1="20" x2="19" y2="35" stroke={color} strokeWidth="1.2" opacity="0.6" />
       <circle cx="19" cy="35" r="1.2" fill={color} opacity="0.8" />
       <path d="M5,20 Q6,30 7,36" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
