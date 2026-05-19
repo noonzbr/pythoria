@@ -5,34 +5,35 @@ let _splashTimer = null;
 
 function _splashTick() {
   if (!_splashActive) return;
-  // Funky disco groove — 4-beat loop at 120BPM
-  const sq = (f, d) => tone(f, 'square',   0.10, 0.09, d); // staccato synth lead
-  const sw = (f, d) => tone(f, 'sawtooth', 0.08, 0.07, d); // funk chop pad
-  const tr = (f, d) => tone(f, 'triangle', 0.30, 0.10, d); // bass
+  // Retro techno theme — 8-beat loop at 128BPM (0.469s/beat, 0.234s/8th)
+  const B = 0.469;                                      // one beat
+  const E = B / 2;                                      // one 8th note
+  const sw  = (f, d) => tone(f, 'sawtooth', E * 0.85, 0.09, d); // retro synth lead
+  const arp = (f, d) => tone(f, 'square',   E * 0.6,  0.06, d); // arpeggio
+  const bas = (f, d) => tone(f, 'triangle', B * 0.9,  0.12, d); // sub bass
+  const hit = (d)    => noise(0.04, 0.14, d);                    // hi-hat click
 
-  // Synth lead melody (8th notes, upbeat disco feel)
-  sq(784, 0.00); sq(784, 0.125); sq(880, 0.25); sq(784, 0.375);
-  sq(659, 0.50); sq(784, 0.625);
-  sq(880, 1.00); sq(880, 1.125); sq(1047,1.25); sq(880, 1.375);
-  sq(784, 1.50); sq(659, 1.625); sq(784, 1.75);
-  sq(784, 2.00); sq(784, 2.125); sq(880, 2.25); sq(784, 2.375);
-  sq(659, 2.50); sq(523, 2.625); sq(659, 2.75); sq(784, 2.875);
-  sq(880, 3.00); sq(784, 3.125); sq(659, 3.25);
-  sq(523, 3.50); sq(659, 3.625); sq(784, 3.75);
+  // ── Synth lead melody (bars 1-2, repeats bars 3-4 up a step) ──
+  sw(880, 0*E); sw(784, 1*E); sw(880, 2*E); sw(1047,3*E);
+  sw(880, 4*E); sw(784, 5*E); sw(659, 6*E); sw(784, 7*E);
 
-  // Four-on-the-floor bass (every beat + offbeat groove)
-  tr(196, 0.00); tr(196, 0.25); tr(261, 0.50); tr(196, 0.75);
-  tr(220, 1.00); tr(220, 1.25); tr(261, 1.50); tr(220, 1.75);
-  tr(196, 2.00); tr(196, 2.25); tr(261, 2.50); tr(196, 2.75);
-  tr(175, 3.00); tr(196, 3.25); tr(220, 3.50); tr(261, 3.75);
+  sw(880, 8*E); sw(1047,9*E); sw(1175,10*E); sw(1047,11*E);
+  sw(880,12*E); sw(784,13*E); sw(659,14*E); sw(523,15*E);
 
-  // Offbeat funk chop (the "wah" rhythm, on the upbeats)
-  sw(392, 0.125); sw(392, 0.375); sw(349, 0.625);
-  sw(392, 1.125); sw(392, 1.375); sw(440, 1.625);
-  sw(392, 2.125); sw(392, 2.375); sw(349, 2.625);
-  sw(392, 3.125); sw(440, 3.375); sw(523, 3.625);
+  // ── Sawtooth arpeggio (running 16th-note pattern underneath) ──
+  const arps = [440,523,659,784, 440,523,784,880, 392,523,659,784, 392,494,659,784];
+  arps.forEach((f, i) => arp(f, i * E / 2));
 
-  _splashTimer = setTimeout(_splashTick, 4000);
+  // ── Sub bass (on every beat, root movement Am → F → C → G) ──
+  bas(110, 0*B); bas(110, 1*B);
+  bas( 87, 2*B); bas( 87, 3*B);
+  bas( 65, 4*B); bas( 65, 5*B);
+  bas( 98, 6*B); bas( 98, 7*B);
+
+  // ── Hi-hat on every 8th note ──
+  for (let i = 0; i < 16; i++) hit(i * E);
+
+  _splashTimer = setTimeout(_splashTick, 8 * B * 1000 + 20);
 }
 
 function getCtx() {
