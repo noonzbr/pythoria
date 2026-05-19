@@ -520,12 +520,6 @@ function HeroSVGFigure({ x, y, color, size = 20 }) {
       <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
       <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
       <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
-      {/* Gold glasses */}
-      <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-      <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
       {/* Smile */}
       <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
       <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
@@ -571,12 +565,6 @@ export function HeroFigureSVG({ cls, size = 80, animate = false }) {
       <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
       <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
       <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
-      {/* Gold glasses */}
-      <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-      <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
-      <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
       {/* Smile */}
       <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
       <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
@@ -627,12 +615,6 @@ export function HeroAvatar({ cls, size = 44, animate = false }) {
         <circle cx="11.7" cy="14.6" r="0.82" fill="#6B8FCC" />
         <circle cx="11.7" cy="14.6" r="0.5" fill="#1A1040" />
         <circle cx="12.05" cy="14.15" r="0.28" fill="white" />
-        {/* Gold glasses */}
-        <circle cx="8.3" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-        <circle cx="11.7" cy="14.6" r="1.3" fill="none" stroke="#E8C020" strokeWidth="0.36" />
-        <line x1="9.6" y1="14.6" x2="10.4" y2="14.6" stroke="#E8C020" strokeWidth="0.36" />
-        <line x1="7.0" y1="14.6" x2="6.3" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
-        <line x1="13.0" y1="14.6" x2="13.7" y2="14.95" stroke="#E8C020" strokeWidth="0.36" />
         {/* Smile */}
         <path d="M8.5,17.2 Q10,18.5 11.5,17.2" fill="none" stroke="rgba(170,75,55,0.85)" strokeWidth="0.48" strokeLinecap="round" />
         <path d="M9.1,17.5 Q10,18.1 10.9,17.5 Q10,17.85 9.1,17.5 Z" fill="rgba(255,255,255,0.9)" />
